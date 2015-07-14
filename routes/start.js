@@ -36,7 +36,7 @@ router.get('/', function(req, res, next) {
   //proc = spawn('raspistill', args);
   camera.start();
 
-  res.render('start', { title: 'Start gifItToMe', random:Math.random() });
+  res.render('start', { title: 'Start gifItToMe', random:Math.random()*10000 });
 });
 
 module.exports = router;
