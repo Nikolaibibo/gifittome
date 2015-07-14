@@ -10,7 +10,8 @@ var camera = new RaspiCam({
   encoding: "jpg",
   output: './public/images/raspicam.jpg',
   quality: 50,
-  width:300
+  width:500,
+  height:272
 });
 
 camera.on("started", function( err, timestamp ){
