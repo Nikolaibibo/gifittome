@@ -27,10 +27,10 @@ app.get('/', function (req, res, next) {
         }
       );
     */
-  res.sendFile(path.join(__dirname, './public', 'index.html'));
+  //res.sendFile(path.join(__dirname, './public', 'index.html'));
 
   console.log("ready for raspi still");
-  sayHello();
+  next();
 }, function (req, res) {
   res.send('Hello from B!');
 });
