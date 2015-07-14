@@ -13,6 +13,7 @@ app.get('/', function (req, res, next) {
 
   console.log("ready for raspi still");
 
+  /*
   var runShell = new run_shell('raspistill',['-o', './public/images/cam.jpg'],
         function (me, buffer) {
             me.stdout += buffer.toString();
@@ -23,8 +24,9 @@ app.get('/', function (req, res, next) {
             console.log("end!");
             //child = spawn('omxplayer',[id+'.mp4']);
 
-        });
-
+        }
+      );
+    */
   res.sendFile(path.join(__dirname, './public', 'index.html'));
 
 
@@ -32,7 +34,7 @@ app.get('/', function (req, res, next) {
 
 app.get('/start', function (req, res, next) {
 
-
+  /*
   var runShell = new run_shell('raspistill',['-o', './public/images/cam.jpg'],
         function (me, buffer) {
             me.stdout += buffer.toString();
@@ -45,9 +47,9 @@ app.get('/start', function (req, res, next) {
 
         });
 
-
+        */
   res.sendFile(path.join(__dirname, './public', 'start.html'));
-
+  console.log("start page served");
 });
 
 
