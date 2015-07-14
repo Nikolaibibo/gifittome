@@ -13,7 +13,7 @@ app.get('/', function (req, res, next) {
 
   console.log("ready for raspi still");
 
-  var runShell = new run_shell('raspistill',['-o', './public/images/camera.jpg'],
+  var runShell = new run_shell('raspistill',['-o', './public/images/cam.jpg'],
         function (me, buffer) {
             me.stdout += buffer.toString();
             //socket.emit("loading",{output: me.stdout});
@@ -33,7 +33,7 @@ app.get('/', function (req, res, next) {
 app.get('/start', function (req, res, next) {
 
 
-  var runShell = new run_shell('raspistill',['-o', './public/images/camera.jpg'],
+  var runShell = new run_shell('raspistill',['-o', './public/images/cam.jpg'],
         function (me, buffer) {
             me.stdout += buffer.toString();
             //socket.emit("loading",{output: me.stdout});
