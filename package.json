@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Nikolaibibo/gifittome",
   "dependencies": {
-    "express": "^4.13.1"
+    "express": "^4.13.1",
+    "socket.io": "^1.3.5"
   }
 }
