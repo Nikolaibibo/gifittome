@@ -32,7 +32,8 @@ app.get('/', function (req, res, next) {
   console.log("ready for raspi still");
   next();
 }, function (req, res) {
-  res.send('Hello from B!');
+  res.sendFile(path.join(__dirname, './public', 'a.html'));
+  //res.send('Hello from B!');
 });
 
 app.get('/start', function (req, res, next) {
