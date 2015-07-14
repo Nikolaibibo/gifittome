@@ -1,8 +1,15 @@
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Start gifItToMe</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
-
+    <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+    <script src="http://code.jquery.com/jquery.js"></script>
 
   </head>
 
@@ -12,10 +19,28 @@
     <div id="container" class="inhalt">
       <p>Welcome to the start page of Start gifItToMe</p>
       <img src="/images/cam.jpg">
+
+
+      <div class="row">
+        <img src="" id="stream">
+      </div>
+
     </div>
 
-    <a href="/start" class="kamerabutton">Bild aktualisieren</a>
+    <a href="/start" class="kamerabutton" onclick="startStream()">Bild aktualisieren</a>
     <a href="/step1" class="nextbutton">Weiter</a>
 
+    <script>
+      var socket = io();
+      socket.on('liveStream', function(url) {
+        $('#stream').attr('src', url);
+        $('.start').hide();
+      });
+
+      function startStream() {
+        socket.emit('start-stream');
+        $('.start').hide();
+      }
+  </script>
   </body>
 </html>
