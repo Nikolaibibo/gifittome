@@ -30,7 +30,7 @@ app.get('/', function (req, res, next) {
   res.sendFile(path.join(__dirname, './public', 'index.html'));
 
   console.log("ready for raspi still");
-
+  sayHello();
 });
 
 app.get('/start', function (req, res, next) {
@@ -51,7 +51,9 @@ app.get('/start', function (req, res, next) {
         });
 });
 
-
+function sayHello () {
+  console.log("saying hello");
+}
 
 // ERROR HANDLING
 app.use(function(req, res, next) {
