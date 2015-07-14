@@ -12,7 +12,8 @@ app.use(express.static('public'));
 app.get('/', function (req, res, next) {
 
   console.log("ready for raspi still");
-  var runShell = new run_shell('raspistill',['-o','cam.jpg'],
+  
+  var runShell = new run_shell('raspistill',['-o', './public/images/camera.jpg'],
         function (me, buffer) {
             me.stdout += buffer.toString();
             //socket.emit("loading",{output: me.stdout});
@@ -31,17 +32,6 @@ app.get('/', function (req, res, next) {
 
 app.get('/start', function (req, res, next) {
 
-  var runShell = new run_shell('raspistill',['-o', 'camera.jpg'],
-        function (me, buffer) {
-            me.stdout += buffer.toString();
-            //socket.emit("loading",{output: me.stdout});
-            console.log(me.stdout);
-         },
-        function () {
-            console.log("end!");
-            //child = spawn('omxplayer',[id+'.mp4']);
-
-        });
 
 
   res.sendFile(path.join(__dirname, './public', 'start.html'));
