@@ -23,8 +23,9 @@ app.get('/', function (req, res, next) {
             console.log("image created!");
             //child = spawn('omxplayer',[id+'.mp4']);
 
-        });
-});
+        }
+    );
+
 
   next();
 }, function (req, res) {
