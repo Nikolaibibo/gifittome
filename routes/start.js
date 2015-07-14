@@ -1,5 +1,6 @@
 var express = require('express');
 var spawn = require('child_process').spawn;
+var RaspiCam = require("raspicam");
 
 var router = express.Router();
 var proc;
