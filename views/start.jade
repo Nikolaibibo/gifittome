@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1= title
+  #container.inhalt
+    p Welcome to the start page of #{title}
+    p Platzhalter für ein Kamerabild
+    img(src='/public/images/image_stream.jpg')
+
+  a(class='button', href='/step1') Schritt 1
