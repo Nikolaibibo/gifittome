@@ -13,7 +13,7 @@
 
   </head>
 
-  <body onload="myFunction()">
+  <body onload="initSocket()">
 
     <h1>Start gifItToMe</h1>
     <div id="container" class="inhalt">
@@ -30,19 +30,19 @@
 
 
     <script>
-      var socket = io();
-      socket.on('liveStream', function(url) {
-        $('#stream').attr('src', url);
-        $('.start').hide();
-      });
+
 
       function startStream() {
         socket.emit('start-stream');
         $('.start').hide();
       }
 
-      function myFunction () {
-        alert("myFunction");
+      function initSocket () {
+        var socket = io();
+        socket.on('liveStream', function(url) {
+          $('#stream').attr('src', url);
+          $('.start').hide();
+        });
       }
   </script>
   </body>
