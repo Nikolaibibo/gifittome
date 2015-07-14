@@ -27,7 +27,7 @@ app.get('/', function (req, res, next) {
         }
       );
     */
-  //res.sendFile(path.join(__dirname, './public', 'index.html'));
+  //res.sendFile(path.join(__dirname, './public', 'a.html'));
 
   console.log("ready for raspi still");
   next();
