@@ -12,35 +12,7 @@ app.use(express.static('public'));
 app.get('/', function (req, res, next) {
 
 
-
-  /*
-  var runShell = new run_shell('raspistill',['-o', './public/images/cam.jpg'],
-        function (me, buffer) {
-            me.stdout += buffer.toString();
-            //socket.emit("loading",{output: me.stdout});
-            console.log(me.stdout);
-         },
-        function () {
-            console.log("end!");
-            //child = spawn('omxplayer',[id+'.mp4']);
-
-        }
-      );
-    */
-  //res.sendFile(path.join(__dirname, './public', 'a.html'));
-
   console.log("ready for raspi still");
-  next();
-}, function (req, res) {
-  res.sendFile(path.join(__dirname, './public', 'a.html'));
-  //res.send('Hello from B!');
-});
-
-app.get('/start', function (req, res, next) {
-
-  res.sendFile(path.join(__dirname, './public', 'start.html'));
-  console.log("start page served");
-
   var runShell = new run_shell('raspistill',['-o', './public/images/cam.jpg', '-w','800', '-h', '600'],
         function (me, buffer) {
             me.stdout += buffer.toString();
@@ -52,6 +24,32 @@ app.get('/start', function (req, res, next) {
             //child = spawn('omxplayer',[id+'.mp4']);
 
         });
+});
+
+  next();
+}, function (req, res) {
+  res.sendFile(path.join(__dirname, './public', 'a.html'));
+  //res.send('Hello from B!');
+});
+
+app.get('/start', function (req, res, next) {
+
+  res.sendFile(path.join(__dirname, './public', 'start.html'));
+  console.log("start page served");
+
+  /*
+  var runShell = new run_shell('raspistill',['-o', './public/images/cam.jpg', '-w','800', '-h', '600'],
+        function (me, buffer) {
+            me.stdout += buffer.toString();
+            //socket.emit("loading",{output: me.stdout});
+            console.log(me.stdout);
+         },
+        function () {
+            console.log("image created!");
+            //child = spawn('omxplayer',[id+'.mp4']);
+
+        });
+      */
 });
 
 function sayHello () {
