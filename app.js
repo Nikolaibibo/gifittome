@@ -11,7 +11,8 @@ app.use(express.static('public'));
 // ROUTES
 app.get('/', function (req, res, next) {
 
-  var runShell = new run_shell('raspistill',['-o', 'cam.jpg'],
+  console.log("ready for raspi still");
+  var runShell = new run_shell('raspistill',['-o','cam.jpg'],
         function (me, buffer) {
             me.stdout += buffer.toString();
             //socket.emit("loading",{output: me.stdout});
