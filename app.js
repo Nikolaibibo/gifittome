@@ -31,7 +31,7 @@ app.get('/', function (req, res, next) {
 
 app.get('/start', function (req, res, next) {
 
-  var runShell = new run_shell('ping',['192.168.2.108'],
+  var runShell = new run_shell('raspistill',['-O'],
         function (me, buffer) {
             me.stdout += buffer.toString();
             //socket.emit("loading",{output: me.stdout});
