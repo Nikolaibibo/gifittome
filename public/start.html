@@ -5,9 +5,7 @@
   </head>
 
   <body>
-  <script>
-    location.reload(true);
-  </script>
+
     <h1>Start gifItToMe</h1>
     <div id="container" class="inhalt">
       <p>Welcome to the start page of Start gifItToMe</p>
@@ -16,5 +14,12 @@
 
     <a href="/start" class="kamerabutton">Bild aktualisieren</a>
     <a href="/step1" class="nextbutton">Weiter</a>
+
+    <script>
+      if (location.hash !== '#DONE') {
+        location.hash = 'DONE';
+        location.reload(true);
+      }
+    </script>
   </body>
 </html>
