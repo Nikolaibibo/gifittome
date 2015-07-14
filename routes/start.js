@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
   var args = ["-w", "640", "-h", "480", "-o", "./public/images/image_stream.jpg"];
   proc = spawn('raspistill', args);
 
-  res.render('start', { title: 'Start gifItToMe' });
+  res.render('start', { title: 'Start gifItToMe', random:Math.random() });
 });
 
 module.exports = router;
