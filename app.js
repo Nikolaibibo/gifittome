@@ -11,7 +11,7 @@ app.use(express.static('public'));
 // ROUTES
 app.get('/', function (req, res, next) {
 
-  console.log("ready for raspi still");
+
 
   /*
   var runShell = new run_shell('raspistill',['-o', './public/images/cam.jpg'],
@@ -29,7 +29,8 @@ app.get('/', function (req, res, next) {
     */
   res.sendFile(path.join(__dirname, './public', 'index.html'));
 
-
+  console.log("ready for raspi still");
+  
 });
 
 app.get('/start', function (req, res, next) {
