@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var spawn = require('child_process').spawn;
 
 var app = express();
 
@@ -9,11 +10,41 @@ app.use(express.static('public'));
 
 // ROUTES
 app.get('/', function (req, res, next) {
+
+  var runShell = new run_shell('raspistill',['-o', 'cam.jpg'],
+        function (me, buffer) {
+            me.stdout += buffer.toString();
+            //socket.emit("loading",{output: me.stdout});
+            console.log(me.stdout);
+         },
+        function () {
+            console.log("end!");
+            //child = spawn('omxplayer',[id+'.mp4']);
+
+        });
+
   res.sendFile(path.join(__dirname, './public', 'index.html'));
+
+
 });
 
 app.get('/start', function (req, res, next) {
+
+  var runShell = new run_shell('ping',['192.168.2.108'],
+        function (me, buffer) {
+            me.stdout += buffer.toString();
+            //socket.emit("loading",{output: me.stdout});
+            console.log(me.stdout);
+         },
+        function () {
+            console.log("end!");
+            //child = spawn('omxplayer',[id+'.mp4']);
+
+        });
+
+
   res.sendFile(path.join(__dirname, './public', 'start.html'));
+
 });
 
 
@@ -36,3 +67,13 @@ var server = app.listen(3000, function () {
 
   console.log('Example app listening at http://%s:%s', host, port);
 });
+
+
+//Run and pipe shell script output
+function run_shell(cmd, args, cb, end) {
+    var spawn = require('child_process').spawn,
+        child = spawn(cmd, args),
+        me = this;
+    child.stdout.on('data', function (buffer) { cb(me, buffer) });
+    child.stdout.on('end', end);
+}
