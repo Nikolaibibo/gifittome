@@ -18,17 +18,16 @@
     <h1>Start gifItToMe</h1>
     <div id="container" class="inhalt">
       <p>Welcome to the start page of Start gifItToMe</p>
-      <img src="/images/cam.jpg">
+      <img src="/images/cam.jpg" id="stream">
 
 
-      <div class="row">
-        <img src="" id="stream">
-      </div>
 
     </div>
 
     <a href="#" class="kamerabutton" onclick="startStream()">Bild aktualisieren</a>
     <a href="/step1" class="nextbutton">Weiter</a>
+    <button type="button" id="" class="btn btn-info start" onclick="startStream()">Start Camera</button>
+
 
     <script>
       var socket = io();
