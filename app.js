@@ -31,6 +31,8 @@ app.get('/', function (req, res, next) {
 
   console.log("ready for raspi still");
   sayHello();
+}, function (req, res) {
+  res.send('Hello from B!');
 });
 
 app.get('/start', function (req, res, next) {
