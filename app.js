@@ -64,6 +64,7 @@ io.on('connection', function(socket) {
   console.log("Total clients connected : ", Object.keys(sockets).length);
 
   socket.on('disconnect', function() {
+    console.log("disconnect");
     delete sockets[socket.id];
 
     // no more sockets, kill the stream
@@ -76,6 +77,7 @@ io.on('connection', function(socket) {
   });
 
   socket.on('start-stream', function() {
+    console.log("start stream");
     startStreaming(io);
   });
 });

@@ -13,7 +13,7 @@
 
   </head>
 
-  <body>
+  <body onload="myFunction()">
 
     <h1>Start gifItToMe</h1>
     <div id="container" class="inhalt">
@@ -39,6 +39,10 @@
       function startStream() {
         socket.emit('start-stream');
         $('.start').hide();
+      }
+
+      function myFunction () {
+        alert("myFunction");
       }
   </script>
   </body>
