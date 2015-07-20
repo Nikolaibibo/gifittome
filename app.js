@@ -70,7 +70,7 @@ io.on('connection', function(socket){
           function () {
               console.log("video created!");
               //child = spawn('omxplayer',[id+'.mp4']);
-              io.emit('video created', msg);
+              io.emit('video created');
           }
     );
 
