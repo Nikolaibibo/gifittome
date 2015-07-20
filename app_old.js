@@ -16,6 +16,8 @@ app.get('/', function (req, res, next) {
 
 
   console.log("ready for raspi still");
+
+  /*
   var runShell = new run_shell('raspistill',['-o', './public/images/cam.jpg', '-w','800', '-h', '600'],
         function (me, buffer) {
             me.stdout += buffer.toString();
@@ -28,11 +30,11 @@ app.get('/', function (req, res, next) {
 
         }
     );
-
+    */
 
   next();
 }, function (req, res) {
-  res.sendFile(path.join(__dirname, './public', 'a.html'));
+  res.sendFile(path.join(__dirname, './public', 'chat.html'));
   //res.send('Hello from B!');
 });
 
@@ -59,27 +61,15 @@ app.get('/start', function (req, res, next) {
 // IO
 var sockets = {};
 
-io.on('connection', function(socket) {
-
-  sockets[socket.id] = socket;
-  console.log("Total clients connected : ", Object.keys(sockets).length);
-
-  socket.on('disconnect', function() {
-    console.log("disconnect");
-    delete sockets[socket.id];
-
-    // no more sockets, kill the stream
-    if (Object.keys(sockets).length == 0) {
-      app.set('watchingFile', false);
-      if (proc) proc.kill();
-      fs.unwatchFile('./public/images/cam.jpg');
-
-    }
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
   });
 
-  socket.on('start-stream', function() {
-    console.log("start stream");
-    startStreaming(io);
+  socket.on('chat message', function(msg){
+    console.log('message: ' + msg);
+    io.emit('chat message', msg);
   });
 });
 

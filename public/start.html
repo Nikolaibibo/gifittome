@@ -8,17 +8,14 @@
 
     <title>Start gifItToMe</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
-    <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
-    <script src="http://code.jquery.com/jquery.js"></script>
-
   </head>
 
-  <body onload="initSocket()">
+  <body>
 
     <h1>Start gifItToMe</h1>
     <div id="container" class="inhalt">
       <p>Welcome to the start page of Start gifItToMe</p>
-      <img src="/images/cam.jpg" id="stream">
+      <img src="/images/camera.jpg" id="stream">
 
 
 
@@ -29,21 +26,27 @@
     <button type="button" id="" class="btn btn-info start" onclick="startStream()">Start Camera</button>
 
 
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
+      var socket = io();
+      $('form').submit(function(){
+        socket.emit('chat message', $('#m').val());
+        $('#m').val('');
+        return false;
+      });
+      socket.on('chat message', function(msg){
+        $('#messages').append($('<li>').text(msg));
+      });
+      socket.on('image created', function(msg){
+        alert("image created");
+      });
 
-
-      function startStream() {
-        socket.emit('start-stream');
-        $('.start').hide();
+      function startStream () {
+        socket.emit('update image');
       }
 
-      function initSocket () {
-        var socket = io();
-        socket.on('liveStream', function(url) {
-          $('#stream').attr('src', url);
-          $('.start').hide();
-        });
-      }
-  </script>
+
+    </script>
   </body>
 </html>
