@@ -68,11 +68,11 @@ io.on('connection', function(socket){
 
 
     shell.exec('rm -r -f /home/pi/nodejs/gifittome/public/videos/*', function(code, output) {
-      console.log('Exit code:', code);
-      console.log('Program output:', output);
+      //console.log('Exit code:', code);
+      //console.log('Program output:', output);
       console.log("videos deleted");
 
-      var runShell = new run_shell('raspivid',['-o', './public/videos/video.h264', '-w','400', '-h', '300', '-t', '3000'],
+      var runShell = new run_shell('raspivid',['-o', './public/videos/video.h264', '-w','400', '-h', '300', '-t', '5000'],
             function (me, buffer) {},
             function () {
                 console.log("video created! Now converting....");
