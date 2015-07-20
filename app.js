@@ -61,16 +61,30 @@ io.on('connection', function(socket){
   socket.on('create video', function(){
     console.log('create video');
 
-    var runShell = new run_shell('raspivid',['-o', './public/video.h264', '-w','400', '-h', '300', '-t', '3000'],
+    var runShell = new run_shell('raspivid',['-o', './public/videos/video.h264', '-w','400', '-h', '300', '-t', '3000'],
           function (me, buffer) {
               me.stdout += buffer.toString();
               //socket.emit("loading",{output: me.stdout});
               console.log(me.stdout);
            },
           function () {
-              console.log("video created!");
-              //child = spawn('omxplayer',[id+'.mp4']);
-              io.emit('video created');
+              console.log("video created! Now converting....");
+
+              var runShell = new run_shell('MP4Box',['-fps', '30', '-add','./public/videos/video.h264', './public/videos/video.mp4'],
+                    function (me, buffer) {
+                        me.stdout += buffer.toString();
+                        //socket.emit("loading",{output: me.stdout});
+                        console.log(me.stdout);
+                     },
+                    function () {
+                        console.log("video converted!");
+                        //child = spawn('omxplayer',[id+'.mp4']);
+                        io.emit('video created');
+                        // MP4Box -fps 30 -add video.h264 video.mp4
+
+                    }
+
+
           }
     );
 
