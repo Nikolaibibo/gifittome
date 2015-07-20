@@ -20,12 +20,12 @@
 
     <div id='videoplayer'>
       <video width="320" height="240" controls>
-        <source src="/videos/video.mp4" type="video/mp4" id="videopreview" class="videopreview">
+        <source src="/videos/video.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
     </div>
 
-    <a href="#" class="kamerabutton" onclick="startStream()">Bild aktualisieren</a>
+    <a href="#" class="kamerabutton" onclick="createImage()">Bild aktualisieren</a>
     <a href="#" class="nextbutton" onclick="createVideo()">Create Video</a>
 
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
@@ -49,12 +49,16 @@
         var vid = "/videos/video.mp4?rand=" + random;
         alert("video created" + vid);
 
-        $("#videopreview").attr("src", vid).load(function(){
+        $("#videoplayer").attr("src", vid).load(function(){
           alert("video reloaded");
         });
+
       });
 
-      function startStream () {
+
+
+      // socket calls to node.js server
+      function createImage () {
         socket.emit('update image');
       }
 
