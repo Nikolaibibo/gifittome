@@ -66,6 +66,7 @@ io.on('connection', function(socket){
   socket.on('create video', function(){
     console.log('create video');
 
+    /*
 
     var runShell = new run_shell('raspivid',['-o', './public/videos/video.h264', '-w','400', '-h', '300', '-t', '3000'],
           function (me, buffer) {},
@@ -77,6 +78,9 @@ io.on('connection', function(socket){
               );
           }
     );
+    */
+
+    rm('-rf', '/home/pi/nodejs/gifittome/public/videos/*');
 
     /*
     var runShell = new run_shell('rm',['-r', '-f', '/home/pi/nodejs/gifittome/public/videos/*'],
