@@ -88,25 +88,15 @@ function captureVideo () {
     //console.log('Program output:', output);
     console.log("videos deleted");
 
-    shell.exec('raspivid -o ./public/videos/video.h264 -w 320 -h 240 -t 5000', function(code, output) {
-      console.log("video converted!");
-      io.emit('video created');
+    shell.exec('raspivid -o ./public/videos/video.h264 -w 400 -h 300 -t 5000', function(code, output) {
+      console.log("video created!");
+
+      shell.exec('MP4Box -fps 30 -add ./public/videos/video.h264 ./public/videos/video.mp4', function(code, output) {
+
+        console.log("video converted");
+        io.emit('video created');
+      });
     });
 
-    /*
-    var runShell = new run_shell('raspivid',['-o', './public/videos/video.h264', '-w','400', '-h', '300', '-t', '5000'],
-          function (me, buffer) {},
-          function () {
-              console.log("video created! Now converting....");
-              var runShell = new run_shell('MP4Box',['-fps', '30', '-add','./public/videos/video.h264', './public/videos/video.mp4'],
-                    function (me, buffer) { },
-                    function () {
-                      console.log("video converted!");
-                      io.emit('video created');
-                    }
-              );
-          }
-    );
-    */
   });
 }
