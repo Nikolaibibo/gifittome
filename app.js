@@ -60,6 +60,23 @@ io.on('connection', function(socket){
 
   socket.on('create video', function(msg){
     console.log('create video: ' + msg);
+
+    var runShell = new run_shell('raspivid',['-o', './public/video.h264', '-w','400', '-h', '300', '-t', '3000'],
+          function (me, buffer) {
+              me.stdout += buffer.toString();
+              //socket.emit("loading",{output: me.stdout});
+              console.log(me.stdout);
+           },
+          function () {
+              console.log("video created!");
+              //child = spawn('omxplayer',[id+'.mp4']);
+              io.emit('video created', msg);
+          }
+    );
+
+
+
+
   });
 
 
