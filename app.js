@@ -54,6 +54,12 @@ io.on('connection', function(socket){
     captureVideo();
   });
 
+  // generate GIF from video
+  socket.on('create gif', function(){
+    console.log('create gif');
+    createGIF();
+  });
+
 });
 
 http.listen(3000, function(){
@@ -61,18 +67,10 @@ http.listen(3000, function(){
 });
 
 
-//Run and pipe shell script output
-function run_shell(cmd, args, cb, end) {
 
-    var spawn = require('child_process').spawn,
-        child = spawn(cmd, args),
-        me = this;
 
-    //me.stdout = "";
 
-    child.stdout.on('data', function (buffer) { cb(me, buffer) });
-    child.stdout.on('end', end);
-}
+
 
 function captureImage () {
   shell.exec('raspistill -o ./public/images/cam.jpg -w 320 -h 240', function(code, output) {
@@ -96,6 +94,19 @@ function captureVideo () {
         console.log("video converted");
         io.emit('video created');
       });
+    });
+
+  });
+}
+
+function createGIF () {
+  shell.exec('ffmpeg -i video.mp4 -vf "fps=15,scale=320:-1:flags=lanczos,palettegen" -y ./public/videos/palette.png', function(code, output) {
+    console.log("palette created!");
+    io.emit('palette created');
+
+    shell.exec('ffmpeg -i ./public/videos/video.mp4 -i ./public/videos/palette.png -lavfi "fps=15,scale=320:-1:flags=lanczos [x]; [x][1:v] paletteuse" -y ./public/videos/video.gif', function(code, output) {
+      console.log("GIF created");
+      io.emit('gif created');
     });
 
   });

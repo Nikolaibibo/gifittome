@@ -7,26 +7,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Start gifItToMe</title>
-    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
   </head>
 
   <body>
 
     <h1>Start gifItToMe</h1>
-    <div id="container" class="inhalt">
-      <p>Welcome to the start page of Start gifItToMe</p>
-      <img src="/images/camera.jpg" id="preview">
+    <p>Welcome to the start page of Start gifItToMe</p>
+    <div id="image" class="inhalt">
+      <img src="images/camera.jpg" id="preview">
     </div>
 
     <div id='videoplayer'>
       <video id='vid' width="320" height="240" controls>
-        <source src="/images/demo.mp4" type="video/mp4">
+        <source src="images/demo.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
     </div>
 
-    <a href="#" class="kamerabutton" onclick="createImage()">Bild aktualisieren</a>
-    <a href="#" class="nextbutton" onclick="createVideo()">Create Video</a>
+    <div id="gif" class="gif">
+      <img src="images/animated.gif" id="previewgif">
+    </div>
+
+    <div id="navigation">
+      <a href="#" class="redbtn" onclick="createImage()">Bild aktualisieren</a>
+      <a href="#" class="redbtn" onclick="createVideo()">Create Video</a>
+      <a href="#" class="redbtn" onclick="createGIF()">Create GIF</a>
+    </div>
 
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
@@ -62,6 +69,10 @@
 
       function createVideo () {
         socket.emit('create video');
+      }
+
+      function createVideo () {
+        socket.emit('create gif');
       }
 
 
