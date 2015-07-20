@@ -22,7 +22,7 @@
     </div>
 
     <a href="#" class="kamerabutton" onclick="startStream()">Bild aktualisieren</a>
-    <a href="/step1" class="nextbutton">Weiter</a>
+    <a href="#" class="nextbutton" onclick="createVideo()">Create Video</a>
 
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
@@ -45,8 +45,16 @@
         });
       });
 
+      socket.on('video created', function(msg){
+        alert("video created");
+      });
+
       function startStream () {
         socket.emit('update image');
+      }
+
+      function createVideo () {
+        socket.emit('create video');
       }
 
 
