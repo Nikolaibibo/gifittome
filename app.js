@@ -66,11 +66,11 @@ io.on('connection', function(socket){
     console.log('create video');
 
     var runShell = new run_shell('rm',['-r', '-f', '/home/pi/nodejs/gifittome/public/videos/*'],
-        function (me, buffer) {},
+        function (me, buffer) { console.log("buffer: "+buffer);},
         function () {
         console.log("deleted all files in /videos");
 
-        /*
+
 
         var runShell = new run_shell('raspivid',['-o', './public/videos/video.h264', '-w','400', '-h', '300', '-t', '3000'],
               function (me, buffer) {},
@@ -82,7 +82,6 @@ io.on('connection', function(socket){
                   );
               }
         );
-        */
       }
     );
 
