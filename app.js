@@ -59,16 +59,17 @@ io.on('connection', function(socket){
   });
 
   socket.on('create video', function(){
-    console.log('create video');
+    console.log('create video, first delete:');
 
 
-    var runShell = new run_shell('rm',['./public/videos/video.h264'],
+    var runShell = new run_shell('rm',['-f','./public/videos/video.h264'],
           function (me, buffer) {
               me.stdout += buffer.toString();
               console.log("rm video file::: " + me.stdout);
            },
           function () {
               console.log("video file deleted!");
+
               var runShell = new run_shell('raspivid',['-o', './public/videos/video.h264', '-w','400', '-h', '300', '-t', '3000'],
                     function (me, buffer) {
                         me.stdout += buffer.toString();
