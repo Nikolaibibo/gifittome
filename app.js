@@ -69,6 +69,9 @@ io.on('connection', function(socket){
         function (me, buffer) {},
         function () {
         console.log("deleted all files in /videos");
+
+        /*
+
         var runShell = new run_shell('raspivid',['-o', './public/videos/video.h264', '-w','400', '-h', '300', '-t', '3000'],
               function (me, buffer) {},
               function () {
@@ -79,6 +82,7 @@ io.on('connection', function(socket){
                   );
               }
         );
+        */
       }
     );
 
