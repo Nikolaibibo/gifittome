@@ -40,8 +40,10 @@
       });
       socket.on('image created', function(msg){
         //alert("image created");
-        $("#preview").attr("src", "/images/cam.jpg").load(function(){
-          alert("reloaded");
+        var random = Math.random() * 10000;
+        var img = "/images/cam.jpg?rand=" + random;
+        $("#preview").attr("src", img).load(function(){
+          //alert("reloaded");
         });
       });
 
