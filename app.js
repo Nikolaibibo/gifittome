@@ -41,8 +41,8 @@ io.on('connection', function(socket){
   });
 
   // generate and update the image
-  socket.on('update image', function(msg){
-    console.log('update image: ' + msg);
+  socket.on('update image', function(){
+    console.log('update image');
 
 
     var runShell = new run_shell('raspistill',['-o', './public/images/cam.jpg', '-w','800', '-h', '600'],
@@ -66,22 +66,19 @@ io.on('connection', function(socket){
     console.log('create video');
 
     var runShell = new run_shell('rm',['-r', '-f', '/home/pi/nodejs/gifittome/public/videos/*'],
-        function (me, buffer) { console.log("buffer: "+buffer);},
+        function (me, buffer) {},
         function () {
-        console.log("deleted all files in /videos");
-
-
-
-        var runShell = new run_shell('raspivid',['-o', './public/videos/video.h264', '-w','400', '-h', '300', '-t', '3000'],
-              function (me, buffer) {},
-              function () {
-                  console.log("video created! Now converting....");
-                  var runShell = new run_shell('MP4Box',['-fps', '30', '-add','./public/videos/video.h264', './public/videos/video.mp4'],
-                        function (me, buffer) { },
-                        function () { console.log("video converted!"); io.emit('video created'); }
-                  );
-              }
-        );
+          console.log("deleted all files in /videos");
+          var runShell = new run_shell('raspivid',['-o', './public/videos/video_%04d.h264', '-w','400', '-h', '300', '-t', '3000'],
+                function (me, buffer) {},
+                function () {
+                    console.log("video created! Now converting....");
+                    var runShell = new run_shell('MP4Box',['-fps', '30', '-add','./public/videos/video_%04d.h264', './public/videos/video.mp4'],
+                          function (me, buffer) { },
+                          function () { console.log("video converted!"); io.emit('video created'); }
+                    );
+                }
+          );
       }
     );
 
