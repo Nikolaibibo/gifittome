@@ -55,9 +55,15 @@
         var random = Math.random() * 1000000;
         var vid = "/videos/video.mp4?rand=" + random;
         //alert("video created" + vid);
-
         $("#vid").attr("src", vid);
+      });
 
+      // GIF stuff
+      socket.on('gif created', function(msg){
+        var random = Math.random() * 1000000;
+        var gifsrc = "/videos/video.gif?rand=" + random;
+        //alert("video created" + vid);
+        $("#gif").attr("src", gifsrc);
       });
 
 
@@ -69,7 +75,7 @@
 
       function createVideo () {
         socket.emit('create video');
-        alert("create video");
+        //alert("create video");
       }
 
       function createGIF () {
