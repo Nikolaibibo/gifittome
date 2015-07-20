@@ -50,10 +50,11 @@
       });
 
       socket.on('video created', function(msg){
+
         var random = Math.random() * 10000;
         var vid = "/videos/video.mp4?rand=" + random;
         $("#videopreview").attr("src", vid).load(function(){
-          //alert("reloaded");
+          alert("video reloaded");
         });
       });
 
