@@ -19,7 +19,7 @@
     </div>
 
     <div id='videoplayer'>
-      <video width="320" height="240" controls>
+      <video id='vid' width="320" height="240" controls>
         <source src="/videos/video.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
@@ -49,7 +49,7 @@
         var vid = "/videos/video.mp4?rand=" + random;
         alert("video created" + vid);
 
-        $("#videoplayer").attr("src", vid).load(function(){
+        $("#vid").attr("src", vid).load(function(){
           alert("video reloaded");
         });
 
