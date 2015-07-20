@@ -58,8 +58,8 @@ io.on('connection', function(socket){
 
   });
 
-  socket.on('create video', function(msg){
-    console.log('create video: ' + msg);
+  socket.on('create video', function(){
+    console.log('create video');
 
     var runShell = new run_shell('raspivid',['-o', './public/video.h264', '-w','400', '-h', '300', '-t', '3000'],
           function (me, buffer) {
