@@ -81,6 +81,7 @@ function captureImage () {
 
 
 function captureVideo () {
+  console.log("js captureVideo");
   shell.exec('rm -r -f /home/pi/nodejs/gifittome/public/videos/*', function(code, output) {
     //console.log('Exit code:', code);
     //console.log('Program output:', output);
@@ -100,6 +101,8 @@ function captureVideo () {
 }
 
 function createGIF () {
+  console.log("js createGIF");
+
   shell.exec('ffmpeg -i ./public/videos/video.mp4 -vf "fps=15,scale=320:-1:flags=lanczos,palettegen" -y ./public/videos/palette.png', function(code, output) {
     console.log("palette created!");
     io.emit('palette created');
