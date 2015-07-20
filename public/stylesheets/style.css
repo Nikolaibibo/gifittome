@@ -10,23 +10,23 @@ a {
 }
 
 #image {
-  position: fixed;
+  position: absolute;
   top: 140px;
 }
 
 #videoplayer {
-  position: fixed;
+  position: absolute;
   top: 140px;
   left: 360px;
 }
 
 #gif {
-  position: fixed;
+  position: absolute;
   top: 390px;
 }
 
 #navigation {
-  position: fixed;
+  position: absolute;
   top: 670px;
 }
 
