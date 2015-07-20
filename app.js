@@ -100,7 +100,7 @@ function captureVideo () {
 }
 
 function createGIF () {
-  shell.exec('ffmpeg -i video.mp4 -vf "fps=15,scale=320:-1:flags=lanczos,palettegen" -y ./public/videos/palette.png', function(code, output) {
+  shell.exec('ffmpeg -i ./public/videos/video.mp4 -vf "fps=15,scale=320:-1:flags=lanczos,palettegen" -y ./public/videos/palette.png', function(code, output) {
     console.log("palette created!");
     io.emit('palette created');
 
