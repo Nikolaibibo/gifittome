@@ -80,7 +80,7 @@ io.on('connection', function(socket){
     );
     */
 
-    rm('-rf', '/home/pi/nodejs/gifittome/public/videos/*');
+    shell.rm('-rf', '/home/pi/nodejs/gifittome/public/videos/*');
 
     /*
     var runShell = new run_shell('rm',['-r', '-f', '/home/pi/nodejs/gifittome/public/videos/*'],
