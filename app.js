@@ -67,6 +67,11 @@ io.on('connection', function(socket){
     console.log('create video');
 
     /*
+    shell.exec('rm -r -f /home/pi/nodejs/gifittome/public/videos/*', function(code, output) {
+      console.log('Exit code:', code);
+      console.log('Program output:', output);
+    });
+    */
 
     var runShell = new run_shell('raspivid',['-o', './public/videos/video.h264', '-w','400', '-h', '300', '-t', '3000'],
           function (me, buffer) {},
@@ -78,9 +83,10 @@ io.on('connection', function(socket){
               );
           }
     );
-    */
 
-    shell.rm('-rf', '/home/pi/nodejs/gifittome/public/videos/*');
+
+    //shell.rm('-rf', '/home/pi/nodejs/gifittome/public/videos/*');
+
 
     /*
     var runShell = new run_shell('rm',['-r', '-f', '/home/pi/nodejs/gifittome/public/videos/*'],
