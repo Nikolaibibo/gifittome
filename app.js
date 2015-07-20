@@ -69,11 +69,11 @@ io.on('connection', function(socket){
         function (me, buffer) {},
         function () {
           console.log("deleted all files in /videos");
-          var runShell = new run_shell('raspivid',['-o', './public/videos/video_%04d.h264', '-w','400', '-h', '300', '-t', '3000'],
+          var runShell = new run_shell('raspivid',['-o', './public/videos/video.h264', '-w','400', '-h', '300', '-t', '3000'],
                 function (me, buffer) {},
                 function () {
                     console.log("video created! Now converting....");
-                    var runShell = new run_shell('MP4Box',['-fps', '30', '-add','./public/videos/video_%04d.h264', './public/videos/video.mp4'],
+                    var runShell = new run_shell('MP4Box',['-fps', '30', '-add','./public/videos/video.h264', './public/videos/video.mp4'],
                           function (me, buffer) { },
                           function () { console.log("video converted!"); io.emit('video created'); }
                     );
@@ -96,9 +96,13 @@ http.listen(3000, function(){
 
 //Run and pipe shell script output
 function run_shell(cmd, args, cb, end) {
+
     var spawn = require('child_process').spawn,
         child = spawn(cmd, args),
         me = this;
+
+    //me.stdout = "";
+
     child.stdout.on('data', function (buffer) { cb(me, buffer) });
     child.stdout.on('end', end);
 }
