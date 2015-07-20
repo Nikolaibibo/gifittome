@@ -55,7 +55,7 @@ io.on('connection', function(socket){
           function () {
               console.log("image created!");
               //child = spawn('omxplayer',[id+'.mp4']);
-              io.emit('image created', msg);
+              io.emit('image created');
           }
     );
 
