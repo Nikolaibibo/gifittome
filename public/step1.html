@@ -6,13 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Start gifItToMe</title>
+    <title>Step1 gifItToMe</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
   </head>
 
   <body>
 
-    <h1>Start gifItToMe</h1>
+    <h1>Video Creator gifItToMe</h1>
     <div id="container" class="inhalt">
       <p>Welcome to the start page of Start gifItToMe</p>
       <img src="/images/camera.jpg" id="preview">
@@ -21,32 +21,26 @@
 
     </div>
 
-    <a href="#" class="kamerabutton" onclick="startStream()">Bild aktualisieren</a>
+    <a href="#" class="kamerabutton" onclick="captureVideo()">Video aufnehmen</a>
     <a href="/step1" class="nextbutton">Weiter</a>
 
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
       var socket = io();
-      $('form').submit(function(){
-        socket.emit('chat message', $('#m').val());
-        $('#m').val('');
-        return false;
-      });
-      socket.on('chat message', function(msg){
-        $('#messages').append($('<li>').text(msg));
-      });
-      socket.on('image created', function(msg){
-        //alert("image created");
+  
+      socket.on('video created', function(msg){
+        alert("video created");
+        /*
         var random = Math.random() * 10000;
         var img = "/images/cam.jpg?rand=" + random;
         $("#preview").attr("src", img).load(function(){
           //alert("reloaded");
         });
       });
-
-      function startStream () {
-        socket.emit('update image');
+      */
+      function captureVideo () {
+        socket.emit('capture video');
       }
 
 

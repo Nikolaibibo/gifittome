@@ -8,14 +8,29 @@ var spawn = require('child_process').spawn;
 // PUBLIC STATIC FILES
 app.use(express.static('public'));
 
+
+// root
 app.get('/', function(req, res, next){
   //res.sendFile(path.join(__dirname, './public', 'start.html'));
-  console.log("ready for raspi still");
+  console.log("root page");
   next();
 }, function (req, res) {
   res.sendFile(path.join(__dirname, './public', 'start.html'));
   //res.send('Hello from B!');
 });
+
+// step1
+app.get('/step1', function(req, res, next){
+  //res.sendFile(path.join(__dirname, './public', 'start.html'));
+  console.log("step1");
+  next();
+}, function (req, res) {
+  res.sendFile(path.join(__dirname, './public', 'step1.html'));
+  //res.send('Hello from B!');
+});
+
+
+
 
 io.on('connection', function(socket){
   console.log('a user connected');
@@ -23,10 +38,6 @@ io.on('connection', function(socket){
     console.log('user disconnected');
   });
 
-  socket.on('chat message', function(msg){
-    console.log('message: ' + msg);
-    io.emit('chat message', msg);
-  });
 
   socket.on('update image', function(msg){
     console.log('update image: ' + msg);
@@ -45,10 +56,11 @@ io.on('connection', function(socket){
           }
     );
 
-    //io.emit('chat message', msg);
   });
 
-
+  socket.on('capture video', function(msg){
+    console.log('capture video: ' + msg);
+  }
 
 });
 
