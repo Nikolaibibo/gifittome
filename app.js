@@ -83,6 +83,7 @@ io.on('connection', function(socket){
                         // MP4Box -fps 30 -add video.h264 video.mp4
 
                     }
+                  );
 
 
           }
