@@ -15,7 +15,7 @@
     <h1>Start gifItToMe</h1>
     <div id="container" class="inhalt">
       <p>Welcome to the start page of Start gifItToMe</p>
-      <img src="/images/camera.jpg" id="stream">
+      <img src="/images/cam.jpg" id="stream">
 
 
 
@@ -39,7 +39,7 @@
         $('#messages').append($('<li>').text(msg));
       });
       socket.on('image created', function(msg){
-        alert("image created");
+        //alert("image created");
       });
 
       function startStream () {
