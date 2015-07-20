@@ -20,7 +20,7 @@
 
     <div id='videoplayer'>
       <video width="320" height="240" controls>
-        <source src="/videos/video.mp4" type="video/mp4" id="videopreview">
+        <source src="/videos/video.mp4" type="video/mp4" id="videopreview" class="videopreview">
         Your browser does not support the video tag.
       </video>
     </div>
@@ -32,14 +32,8 @@
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
       var socket = io();
-      $('form').submit(function(){
-        socket.emit('chat message', $('#m').val());
-        $('#m').val('');
-        return false;
-      });
-      socket.on('chat message', function(msg){
-        $('#messages').append($('<li>').text(msg));
-      });
+
+      // image stuff
       socket.on('image created', function(msg){
         //alert("image created");
         var random = Math.random() * 10000;
@@ -49,10 +43,12 @@
         });
       });
 
+      // Video stuff
       socket.on('video created', function(msg){
-        alert("video created");
         var random = Math.random() * 10000;
         var vid = "/videos/video.mp4?rand=" + random;
+        alert("video created" + vid);
+
         $("#videopreview").attr("src", vid).load(function(){
           alert("video reloaded");
         });
