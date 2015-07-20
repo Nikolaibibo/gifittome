@@ -4,6 +4,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var path = require('path');
 var spawn = require('child_process').spawn;
+var shell = require('shelljs');
 
 // PUBLIC STATIC FILES
 app.use(express.static('public'));
@@ -65,6 +66,19 @@ io.on('connection', function(socket){
   socket.on('create video', function(){
     console.log('create video');
 
+
+    var runShell = new run_shell('raspivid',['-o', './public/videos/video.h264', '-w','400', '-h', '300', '-t', '3000'],
+          function (me, buffer) {},
+          function () {
+              console.log("video created! Now converting....");
+              var runShell = new run_shell('MP4Box',['-fps', '30', '-add','./public/videos/video.h264', './public/videos/video.mp4'],
+                    function (me, buffer) { },
+                    function () { console.log("video converted!"); io.emit('video created'); }
+              );
+          }
+    );
+
+    /*
     var runShell = new run_shell('rm',['-r', '-f', '/home/pi/nodejs/gifittome/public/videos/*'],
         function (me, buffer) {},
         function () {
@@ -81,6 +95,7 @@ io.on('connection', function(socket){
           );
       }
     );
+    */
 
   // close create video
   });
