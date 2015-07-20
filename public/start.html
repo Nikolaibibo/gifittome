@@ -47,11 +47,9 @@
       socket.on('video created', function(msg){
         var random = Math.random() * 10000;
         var vid = "/videos/video.mp4?rand=" + random;
-        alert("video created" + vid);
+        //alert("video created" + vid);
 
-        $("#vid").attr("src", vid).load(function(){
-          alert("video reloaded");
-        });
+        $("#vid").attr("src", vid);
 
       });
 
