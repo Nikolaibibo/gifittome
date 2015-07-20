@@ -75,6 +75,12 @@ function run_shell(cmd, args, cb, end) {
 }
 
 function captureImage () {
+
+  shell.exec('raspistill -o ./public/images/cam.jpg -w 320 -h 240', function(code, output) {
+    console.log("image created!");
+    io.emit('image created');
+  });
+  /*
   var runShell = new run_shell('raspistill',['-o', './public/images/cam.jpg', '-w','800', '-h', '600'],
         function (me, buffer) {
             me.stdout += buffer.toString();
@@ -83,10 +89,10 @@ function captureImage () {
          },
         function () {
             console.log("image created!");
-            //child = spawn('omxplayer',[id+'.mp4']);
             io.emit('image created');
         }
   );
+  */
 }
 
 
