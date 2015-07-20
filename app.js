@@ -59,8 +59,10 @@ io.on('connection', function(socket){
   });
 
   socket.on('capture video', function(msg){
-    console.log('capture video: ' + msg);
-  }
+    console.log('make movie: ' + msg);
+  });
+
+
 
 });
 
