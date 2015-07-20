@@ -37,6 +37,7 @@ io.on('connection', function(socket){
 
   console.log('a user connected');
 
+  // disconnect
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
@@ -44,70 +45,15 @@ io.on('connection', function(socket){
   // generate and update the image
   socket.on('update image', function(){
     console.log('update image');
-
-
-    var runShell = new run_shell('raspistill',['-o', './public/images/cam.jpg', '-w','800', '-h', '600'],
-          function (me, buffer) {
-              me.stdout += buffer.toString();
-              //socket.emit("loading",{output: me.stdout});
-              console.log(me.stdout);
-           },
-          function () {
-              console.log("image created!");
-              //child = spawn('omxplayer',[id+'.mp4']);
-              io.emit('image created');
-          }
-    );
-
+    captureImage();
   });
-
 
   // generate and update the video
   socket.on('create video', function(){
     console.log('create video');
-
-
-    shell.exec('rm -r -f /home/pi/nodejs/gifittome/public/videos/*', function(code, output) {
-      //console.log('Exit code:', code);
-      //console.log('Program output:', output);
-      console.log("videos deleted");
-
-      var runShell = new run_shell('raspivid',['-o', './public/videos/video.h264', '-w','400', '-h', '300', '-t', '5000'],
-            function (me, buffer) {},
-            function () {
-                console.log("video created! Now converting....");
-                var runShell = new run_shell('MP4Box',['-fps', '30', '-add','./public/videos/video.h264', './public/videos/video.mp4'],
-                      function (me, buffer) { },
-                      function () { console.log("video converted!"); io.emit('video created'); }
-                );
-            }
-      );
-    });
-
-    /*
-    var runShell = new run_shell('rm',['-r', '-f', '/home/pi/nodejs/gifittome/public/videos/*'],
-        function (me, buffer) {},
-        function () {
-          console.log("deleted all files in /videos");
-          var runShell = new run_shell('raspivid',['-o', './public/videos/video.h264', '-w','400', '-h', '300', '-t', '3000'],
-                function (me, buffer) {},
-                function () {
-                    console.log("video created! Now converting....");
-                    var runShell = new run_shell('MP4Box',['-fps', '30', '-add','./public/videos/video.h264', './public/videos/video.mp4'],
-                          function (me, buffer) { },
-                          function () { console.log("video converted!"); io.emit('video created'); }
-                    );
-                }
-          );
-      }
-    );
-    */
-
-  // close create video
+    captureVideo();
   });
 
-
-// io connect close
 });
 
 http.listen(3000, function(){
@@ -126,4 +72,42 @@ function run_shell(cmd, args, cb, end) {
 
     child.stdout.on('data', function (buffer) { cb(me, buffer) });
     child.stdout.on('end', end);
+}
+
+function captureImage () {
+  var runShell = new run_shell('raspistill',['-o', './public/images/cam.jpg', '-w','800', '-h', '600'],
+        function (me, buffer) {
+            me.stdout += buffer.toString();
+            //socket.emit("loading",{output: me.stdout});
+            console.log(me.stdout);
+         },
+        function () {
+            console.log("image created!");
+            //child = spawn('omxplayer',[id+'.mp4']);
+            io.emit('image created');
+        }
+  );
+}
+
+
+function captureVideo () {
+  shell.exec('rm -r -f /home/pi/nodejs/gifittome/public/videos/*', function(code, output) {
+    //console.log('Exit code:', code);
+    //console.log('Program output:', output);
+    console.log("videos deleted");
+
+    var runShell = new run_shell('raspivid',['-o', './public/videos/video.h264', '-w','400', '-h', '300', '-t', '5000'],
+          function (me, buffer) {},
+          function () {
+              console.log("video created! Now converting....");
+              var runShell = new run_shell('MP4Box',['-fps', '30', '-add','./public/videos/video.h264', './public/videos/video.mp4'],
+                    function (me, buffer) { },
+                    function () {
+                      console.log("video converted!");
+                      io.emit('video created');
+                    }
+              );
+          }
+    );
+  });
 }
