@@ -36,7 +36,7 @@
       // image stuff
       socket.on('image created', function(msg){
         //alert("image created");
-        var random = Math.random() * 10000;
+        var random = Math.random() * 1000000;
         var img = "/images/cam.jpg?rand=" + random;
         $("#preview").attr("src", img).load(function(){
           //alert("reloaded");
@@ -45,9 +45,9 @@
 
       // Video stuff
       socket.on('video created', function(msg){
-        var random = Math.random() * 10000;
+        var random = Math.random() * 1000000;
         var vid = "/videos/video.mp4?rand=" + random;
-        alert("video created" + vid);
+        //alert("video created" + vid);
 
         $("#vid").attr("src", vid);
 

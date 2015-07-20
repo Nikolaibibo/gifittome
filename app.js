@@ -65,7 +65,7 @@ io.on('connection', function(socket){
   socket.on('create video', function(){
     console.log('create video');
 
-    var runShell = new run_shell('rm',['./public/videos/*'],
+    var runShell = new run_shell('rm',['-r', '-f', './public/videos/*'],
         function (me, buffer) {},
         function () {
         console.log("deleted all files in /videos");
