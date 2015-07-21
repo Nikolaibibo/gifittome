@@ -7,7 +7,12 @@ var spawn = require('child_process').spawn;
 var shell = require('shelljs');
 var Twit = require('twit');
 var fs = require('fs');
+var qr = require('qr-image');
+var os = require('os');
+var ifaces = os.networkInterfaces();
 
+
+// twitter credentials
 var T = new Twit({
   consumer_key: 'LZ08cNSka1M1j6wLpt3KKKpjy',
   consumer_secret: '078OMSZKEBFslpug7flCgNqZQfMq5GC9TrKjDe5sVfRrerUTpC',
@@ -18,33 +23,21 @@ var T = new Twit({
 
 
 
-// PUBLIC STATIC FILES
+// express.js PUBLIC STATIC FILES
 app.use(express.static('public'));
 
 
-// root
+// express.js ROUTING -> root
 app.get('/', function(req, res, next){
-  //res.sendFile(path.join(__dirname, './public', 'start.html'));
   console.log("root page");
   next();
 }, function (req, res) {
   res.sendFile(path.join(__dirname, './public', 'start.html'));
-  //res.send('Hello from B!');
-});
-
-// step1
-app.get('/step1', function(req, res, next){
-  //res.sendFile(path.join(__dirname, './public', 'start.html'));
-  console.log("step1");
-  next();
-}, function (req, res) {
-  res.sendFile(path.join(__dirname, './public', 'step1.html'));
-  //res.send('Hello from B!');
 });
 
 
 
-// on Connection
+// socket.io -> on Connection
 io.on('connection', function(socket){
 
   console.log('a user connected');
@@ -82,6 +75,8 @@ io.on('connection', function(socket){
 
 });
 
+
+// listen on port
 http.listen(3000, function(){
   console.log('listening on *:3000');
 });
@@ -90,8 +85,7 @@ http.listen(3000, function(){
 
 
 
-
-
+// custom function for capturing image
 function captureImage () {
   shell.exec('raspistill -o ./public/images/cam.jpg -w 320 -h 240', function(code, output) {
     console.log("image created!");
@@ -99,7 +93,7 @@ function captureImage () {
   });
 }
 
-
+// custom function for capturing video
 function captureVideo () {
   console.log("js captureVideo");
   shell.exec('rm -r -f /home/pi/nodejs/gifittome/public/videos/*', function(code, output) {
@@ -120,6 +114,7 @@ function captureVideo () {
   });
 }
 
+// custom function for converting GIF from *.h264
 function createGIF () {
   console.log("js createGIF");
 
@@ -129,13 +124,20 @@ function createGIF () {
 
     shell.exec('ffmpeg -i ./public/videos/video.mp4 -i ./public/videos/palette.png -lavfi "fps=15,scale=320:-1:flags=lanczos [x]; [x][1:v] paletteuse" -y ./public/videos/video.gif', function(code, output) {
       console.log("GIF created");
+
+      /*
+      var code = qr.image('http://blog.nodejitsu.com', { type: 'png' });
+      var output = fs.createWriteStream('nodejitsu.png')
+      */
+      getIP();
+
       io.emit('gif created');
     });
 
   });
 }
 
-
+// custom function for tweeting generated GIF
 function tweetGIF () {
   console.log("js tweetGIF");
 
@@ -155,5 +157,31 @@ function tweetGIF () {
       io.emit('gif tweeted');
     })
   })
+
+}
+
+// custom function for gathering IP adresses for qr code generation
+function getIP () {
+  Object.keys(ifaces).forEach(function (ifname) {
+    var alias = 0
+      ;
+
+    ifaces[ifname].forEach(function (iface) {
+      if ('IPv4' !== iface.family || iface.internal !== false) {
+        // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+        return;
+      }
+
+      if (alias >= 1) {
+        // this single interface has multiple ipv4 addresses
+        console.log("multiple ip addresses");
+        console.log(ifname + ':' + alias, iface.address);
+      } else {
+        // this interface has only one ipv4 adress
+        console.log("single ip adress");
+        console.log(ifname, iface.address);
+      }
+    });
+  });
 
 }

@@ -40,6 +40,12 @@ a {
   top: 390px;
 }
 
+#gif {
+  position: absolute;
+  top: 390px;
+  left: 360px;
+}
+
 #navigation {
   position: absolute;
   top: 650px;
