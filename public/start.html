@@ -36,14 +36,23 @@
       <a href="#" class="redbtn" onclick="tweetGIF()">Tweet GIF</a>
     </div>
 
+    <div id="loader">
+      <img src="images/loader.gif">
+      <p id="statustext">Statusmeldung die länger ist</p>
+    </div>
+
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
       var socket = io();
 
+      hideLoader();
+
       // image stuff
       socket.on('image created', function(msg){
         //alert("image created");
+        hideLoader();
+
         var random = Math.random() * 1000000;
         var img = "/images/cam.jpg?rand=" + random;
         $("#preview").attr("src", img).load(function(){
@@ -53,6 +62,8 @@
 
       // Video stuff
       socket.on('video created', function(msg){
+        hideLoader();
+
         var random = Math.random() * 1000000;
         var vid = "/videos/video.mp4?rand=" + random;
         //alert("video created" + vid);
@@ -61,30 +72,60 @@
 
       // GIF stuff
       socket.on('gif created', function(msg){
+        hideLoader();
+
         var random = Math.random() * 1000000;
         var gifsrc = "/videos/video.gif?rand=" + random;
         //alert("video created" + vid);
         $("#previewgif").attr("src", gifsrc);
       });
 
+      socket.on('palette created', function(msg){
+        updateLoaderText("palette created, generating GIF now");
+      });
+
+      // GIF stuff
+      socket.on('gif tweeted', function(msg){
+        hideLoader();
+      });
+
 
 
       // socket calls to node.js server
       function createImage () {
+        showLoader("Generating new still image");
         socket.emit('update image');
       }
 
       function createVideo () {
+        showLoader("Generating new video");
         socket.emit('create video');
         //alert("create video");
       }
 
       function createGIF () {
+        showLoader("Generating GIF from video");
         socket.emit('create gif');
       }
 
       function tweetGIF () {
+        showLoader("tweeting generated GIF");
         socket.emit('tweet gif');
+      }
+
+
+      // loader show/hide
+      function showLoader (msg) {
+        $("#statustext").text(msg);
+        $("#loader").show();
+      }
+      function hideLoader () {
+        $("#loader").hide();
+      }
+
+      // update loader text
+      function updateLoaderText (msg) {
+          $("#statustext").text(msg);
       }
 
 

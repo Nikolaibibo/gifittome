@@ -9,6 +9,21 @@ a {
   color: #00B7FF;
 }
 
+#loader {
+  position: fixed;
+  width: 250px;
+  height: 200px;
+  top: 300px;
+  left: 220px;
+  text-align: center;
+  background-color: #ffffff;
+  padding-top: 30px;
+}
+
+#statustext {
+  color: #333333;
+}
+
 #image {
   position: absolute;
   top: 140px;

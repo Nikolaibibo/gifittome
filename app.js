@@ -151,7 +151,8 @@ function tweetGIF () {
     var params = { status: '#GIF it to me', media_ids: [mediaIdStr] }
 
     T.post('statuses/update', params, function (err, data, response) {
-      console.log(data)
+      //console.log(data);
+      io.emit('gif tweeted');
     })
   })
 
