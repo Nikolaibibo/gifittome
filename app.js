@@ -9,6 +9,7 @@ var Twit = require('twit');
 var fs = require('fs');
 var qr = require('qr-image');
 var os = require('os');
+var ip = require('ip');
 var ifaces = os.networkInterfaces();
 
 
@@ -149,7 +150,7 @@ function createGIF () {
 
 
       // QR code generating
-      var target_gif = ipadress + target_file_gif_external;
+      var target_gif = "http://" + ip.address() + target_file_gif_external;
       console.log("#### GIF #### " + target_gif)
       var code = qr.image(target_gif, { type: 'png' });
       var output = fs.createWriteStream(target_file_qr);
@@ -193,8 +194,7 @@ function tweetGIF () {
 // custom function for gathering IP adresses for qr code generation
 function getIP () {
   Object.keys(ifaces).forEach(function (ifname) {
-    var alias = 0
-      ;
+    var alias = 0;
 
     ifaces[ifname].forEach(function (iface) {
       if ('IPv4' !== iface.family || iface.internal !== false) {
