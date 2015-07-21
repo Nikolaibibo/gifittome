@@ -140,7 +140,18 @@ function tweetGIF () {
 
   // Load your image
   //var data = require('fs').readFileSync('./public/videos/video.gif');
-  T.post('statuses/update', { status: 'hello world!' }, function(err, data, response) {
-    console.log(data)
+  var b64content = fs.readFileSync('./public/videos/video.gif', { encoding: 'base64' })
+
+  // first we must post the media to Twitter
+  T.post('media/upload', { media_data: b64content }, function (err, data, response) {
+
+    // now we can reference the media and post a tweet (media will attach to the tweet)
+    var mediaIdStr = data.media_id_string
+    var params = { status: '#GIF it to me', media_ids: [mediaIdStr] }
+
+    T.post('statuses/update', params, function (err, data, response) {
+      console.log(data)
+    })
   })
+
 }
