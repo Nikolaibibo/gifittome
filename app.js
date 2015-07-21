@@ -5,7 +5,8 @@ var io = require('socket.io')(http);
 var path = require('path');
 var spawn = require('child_process').spawn;
 var shell = require('shelljs');
-var Twit = require('twit')
+var Twit = require('twit');
+var fs = require('fs');
 
 var T = new Twit({
   consumer_key: 'LZ08cNSka1M1j6wLpt3KKKpjy',
