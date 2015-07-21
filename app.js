@@ -12,6 +12,7 @@ var os = require('os');
 var ifaces = os.networkInterfaces();
 
 
+
 // twitter credentials
 var T = new Twit({
   consumer_key: 'LZ08cNSka1M1j6wLpt3KKKpjy',
@@ -19,6 +20,16 @@ var T = new Twit({
   access_token: '2965830814-Y0m8FipYsyYkIkUbT2HqTbFEdBEbLP7Gu7AmqjD',
   access_token_secret: 'gV2tVBE1fLGVGTbFQLj6UqTXHvPS8icREkJuohrMX0rm9'
 });
+
+var ipadress = "";
+var target_file_gif = './public/videos/video.gif';
+
+var shell_string_stillimage = "raspistill -o ./public/images/cam.jpg -w 320 -h 240";
+var shell_string_delete = "rm -r -f /home/pi/nodejs/gifittome/public/videos/*";
+var shell_string_create_video = "raspivid -o ./public/videos/video.h264 -w 400 -h 300 -t 5000";
+var shell_string_convert_video = "MP4Box -fps 30 -add ./public/videos/video.h264 ./public/videos/video.mp4";
+var shell_string_ffmpeg_palette = "ffmpeg -i ./public/videos/video.mp4 -vf 'fps=15,scale=320:-1:flags=lanczos,palettegen' -y ./public/videos/palette.png";
+var shell_string_ffmpeg_gif = "ffmpeg -i ./public/videos/video.mp4 -i ./public/videos/palette.png -lavfi 'fps=15,scale=320:-1:flags=lanczos [x]; [x][1:v] paletteuse' -y ./public/videos/video.gif";
 
 
 
@@ -87,7 +98,7 @@ http.listen(3000, function(){
 
 // custom function for capturing image
 function captureImage () {
-  shell.exec('raspistill -o ./public/images/cam.jpg -w 320 -h 240', function(code, output) {
+  shell.exec(shell_string_stillimage, function(code, output) {
     console.log("image created!");
     io.emit('image created');
   });
@@ -96,18 +107,21 @@ function captureImage () {
 // custom function for capturing video
 function captureVideo () {
   console.log("js captureVideo");
-  shell.exec('rm -r -f /home/pi/nodejs/gifittome/public/videos/*', function(code, output) {
+  shell.exec(shell_string_delete, function(code, output) {
     //console.log('Exit code:', code);
     //console.log('Program output:', output);
     console.log("videos deleted");
 
-    shell.exec('raspivid -o ./public/videos/video.h264 -w 400 -h 300 -t 5000', function(code, output) {
+    shell.exec(shell_string_create_video, function(code, output) {
       console.log("video created!");
 
-      shell.exec('MP4Box -fps 30 -add ./public/videos/video.h264 ./public/videos/video.mp4', function(code, output) {
+      shell.exec(shell_string_convert_video, function(code, output) {
 
         console.log("video converted");
         io.emit('video created');
+
+        // todo: fix this ;)
+        getIP();
       });
     });
 
@@ -118,18 +132,18 @@ function captureVideo () {
 function createGIF () {
   console.log("js createGIF");
 
-  shell.exec('ffmpeg -i ./public/videos/video.mp4 -vf "fps=15,scale=320:-1:flags=lanczos,palettegen" -y ./public/videos/palette.png', function(code, output) {
+  shell.exec(shell_string_ffmpeg_palette, function(code, output) {
     console.log("palette created!");
     io.emit('palette created');
 
-    shell.exec('ffmpeg -i ./public/videos/video.mp4 -i ./public/videos/palette.png -lavfi "fps=15,scale=320:-1:flags=lanczos [x]; [x][1:v] paletteuse" -y ./public/videos/video.gif', function(code, output) {
+    shell.exec(shell_string_ffmpeg_gif, function(code, output) {
       console.log("GIF created");
 
       /*
       var code = qr.image('http://blog.nodejitsu.com', { type: 'png' });
       var output = fs.createWriteStream('nodejitsu.png')
       */
-      getIP();
+
 
       io.emit('gif created');
     });
@@ -176,10 +190,14 @@ function getIP () {
         // this single interface has multiple ipv4 addresses
         console.log("multiple ip addresses");
         console.log(ifname + ':' + alias, iface.address);
+        ipadress = iface.adress;
+
       } else {
         // this interface has only one ipv4 adress
         console.log("single ip adress");
         console.log(ifname, iface.address);
+
+        ipadress = iface.adress;
       }
     });
   });
