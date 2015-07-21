@@ -5,12 +5,12 @@ var io = require('socket.io')(http);
 var path = require('path');
 var spawn = require('child_process').spawn;
 var shell = require('shelljs');
-var Twitter = require('twitter');
+var Twit = require('twit')
 
-var client = new Twitter({
+var T = new Twit({
   consumer_key: 'LZ08cNSka1M1j6wLpt3KKKpjy',
   consumer_secret: '078OMSZKEBFslpug7flCgNqZQfMq5GC9TrKjDe5sVfRrerUTpC',
-  access_token_key: '2965830814-Y0m8FipYsyYkIkUbT2HqTbFEdBEbLP7Gu7AmqjD',
+  access_token: '2965830814-Y0m8FipYsyYkIkUbT2HqTbFEdBEbLP7Gu7AmqjD',
   access_token_secret: 'gV2tVBE1fLGVGTbFQLj6UqTXHvPS8icREkJuohrMX0rm9'
 });
 
@@ -139,29 +139,8 @@ function tweetGIF () {
   console.log("js tweetGIF");
 
   // Load your image
-  var data = require('fs').readFileSync('./public/videos/video.gif');
-
-  // Make post request on media endpoint. Pass file data as media parameter
-  client.post('media/upload', {media: data}, function(error, media, response){
-
-    if (!error) {
-
-      // If successful, a media object will be returned.
-      console.log(media);
-
-      // Lets tweet it
-      var status = {
-        status: 'GIF it to me!',
-        media_ids: media.media_id_string // Pass the media id string
-      }
-
-      client.post('statuses/update', status, function(error, tweet, response){
-        if (!error) {
-          console.log(tweet);
-        }
-      });
-
-    }
-  });
-
+  //var data = require('fs').readFileSync('./public/videos/video.gif');
+  T.post('statuses/update', { status: 'hello world!' }, function(err, data, response) {
+    console.log(data)
+  })
 }
