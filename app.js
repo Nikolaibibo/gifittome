@@ -21,15 +21,19 @@ var T = new Twit({
   access_token_secret: 'gV2tVBE1fLGVGTbFQLj6UqTXHvPS8icREkJuohrMX0rm9'
 });
 
-var ipadress = "";
+var ipadress = "127.0.0.1";
+var target_file_still = "./public/images/cam.jpg";
 var target_file_gif = './public/videos/video.gif';
+var target_file_palette = "./public/videos/palette.png";
+var target_file_mp4 = "./public/videos/video.mp4";
+var target_file_h264 = "./public/videos/video.h264";
 
-var shell_string_stillimage = "raspistill -o ./public/images/cam.jpg -w 320 -h 240";
+var shell_string_stillimage = "raspistill -o " + target_file_still + " -w 320 -h 240";
 var shell_string_delete = "rm -r -f /home/pi/nodejs/gifittome/public/videos/*";
-var shell_string_create_video = "raspivid -o ./public/videos/video.h264 -w 400 -h 300 -t 5000";
-var shell_string_convert_video = "MP4Box -fps 30 -add ./public/videos/video.h264 ./public/videos/video.mp4";
-var shell_string_ffmpeg_palette = "ffmpeg -i ./public/videos/video.mp4 -vf 'fps=15,scale=320:-1:flags=lanczos,palettegen' -y ./public/videos/palette.png";
-var shell_string_ffmpeg_gif = "ffmpeg -i ./public/videos/video.mp4 -i ./public/videos/palette.png -lavfi 'fps=15,scale=320:-1:flags=lanczos [x]; [x][1:v] paletteuse' -y ./public/videos/video.gif";
+var shell_string_create_video = "raspivid -o " + target_file_h264 + " -w 400 -h 300 -t 5000";
+var shell_string_convert_video = "MP4Box -fps 30 -add " + target_file_h264 + " " + target_file_mp4;
+var shell_string_ffmpeg_palette = "ffmpeg -i " + target_file_mp4 + " -vf 'fps=15,scale=320:-1:flags=lanczos,palettegen' -y " + target_file_palette;
+var shell_string_ffmpeg_gif = "ffmpeg -i " + target_file_mp4 + " -i " + target_file_palette + " -lavfi 'fps=15,scale=320:-1:flags=lanczos [x]; [x][1:v] paletteuse' -y " + target_file_gif;
 
 
 
