@@ -30,7 +30,7 @@
     </div>
 
     <div id="qr">
-      
+
     </div>
 
     <div id="navigation">
@@ -92,6 +92,12 @@
       socket.on('gif tweeted', function(msg){
         hideLoader();
       });
+
+      // GIF stuff
+      socket.on('qr created', function(msg){
+        $('#qr').prepend('<img id="qrcode" src="images/qr.png" />')
+      });
+
 
 
 

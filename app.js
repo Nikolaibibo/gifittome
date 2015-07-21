@@ -21,13 +21,17 @@ var T = new Twit({
   access_token_secret: 'gV2tVBE1fLGVGTbFQLj6UqTXHvPS8icREkJuohrMX0rm9'
 });
 
+// config vars
 var ipadress = "127.0.0.1";
 var target_file_still = "./public/images/cam.jpg";
 var target_file_gif = './public/videos/video.gif';
+var target_file_gif_external = '/videos/video.gif';
 var target_file_palette = "./public/videos/palette.png";
 var target_file_mp4 = "./public/videos/video.mp4";
 var target_file_h264 = "./public/videos/video.h264";
+var target_file_qr = "./public/images/qr.png";
 
+// shell string for shell.js
 var shell_string_stillimage = "raspistill -o " + target_file_still + " -w 320 -h 240";
 var shell_string_delete = "rm -r -f /home/pi/nodejs/gifittome/public/videos/*";
 var shell_string_create_video = "raspivid -o " + target_file_h264 + " -w 400 -h 300 -t 5000";
@@ -143,10 +147,18 @@ function createGIF () {
     shell.exec(shell_string_ffmpeg_gif, function(code, output) {
       console.log("GIF created");
 
-      /*
-      var code = qr.image('http://blog.nodejitsu.com', { type: 'png' });
-      var output = fs.createWriteStream('nodejitsu.png')
-      */
+
+      // QR code generating
+      var target_gif = ipadress + target_file_gif_external;
+      console.log("#### GIF #### " + target_gif)
+      var code = qr.image(target_gif, { type: 'png' });
+      var output = fs.createWriteStream(target_file_qr);
+      code.pipe(output);
+
+      // wait a bit because of file output before emitting qr complete event
+      setTimeout(function(){
+        io.emit('qr created');
+      }, 500);
 
 
       io.emit('gif created');
@@ -161,7 +173,7 @@ function tweetGIF () {
 
   // Load your image
   //var data = require('fs').readFileSync('./public/videos/video.gif');
-  var b64content = fs.readFileSync('./public/videos/video.gif', { encoding: 'base64' })
+  var b64content = fs.readFileSync(target_file_gif, { encoding: 'base64' })
 
   // first we must post the media to Twitter
   T.post('media/upload', { media_data: b64content }, function (err, data, response) {
@@ -200,7 +212,6 @@ function getIP () {
         // this interface has only one ipv4 adress
         console.log("single ip adress");
         console.log(ifname, iface.address);
-
         ipadress = iface.adress;
       }
     });
