@@ -172,8 +172,10 @@ function createGIF () {
         io.emit('qr created');
       }, 500);
 
+      // gif path as message
+      var tmppath = target_folder_gif_external_path + target_file_gif;
 
-      io.emit('gif created');
+      io.emit('gif created', tmppath);
     });
 
   });

@@ -79,8 +79,11 @@
         hideLoader();
 
         var random = Math.random() * 1000000;
-        var gifsrc = "/videos/video.gif?rand=" + random;
-        //alert("video created" + vid);
+        var randomStr = "?rand=" + random;
+        //var gifsrc = "/videos/video.gif?rand=" + random;
+        var gifsrc = msg + randomStr;
+        alert("gif created" + gifsrc);
+        
         $("#previewgif").attr("src", gifsrc);
       });
 
