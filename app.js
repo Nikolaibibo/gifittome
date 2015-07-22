@@ -27,6 +27,7 @@ var ipadress = "127.0.0.1";
 var target_file_still = "./public/images/cam.jpg";
 var target_file_gif = './public/videos/video.gif';
 var target_folder_gif_external_path = '/images/gif/';
+var target_folder_gif_path = "./public/images/gif/"
 var target_file_palette = "./public/videos/palette.png";
 var target_file_mp4 = "./public/videos/video.mp4";
 var target_file_h264 = "./public/videos/video.h264";
@@ -150,7 +151,7 @@ function createGIF () {
     var datestring = d.getDate() + "_" + d.getMonth() + "_" + d.getFullYear() + "_" + d.getHours() + "-" + d.getMinutes() + "_video.gif";
     target_file_gif = datestring;
 
-    var shell_string_ffmpeg_gif = "ffmpeg -i " + target_file_mp4 + " -i " + target_file_palette + " -lavfi 'fps=15,scale=320:-1:flags=lanczos [x]; [x][1:v] paletteuse' -y " + target_folder_gif_external_path + target_file_gif;
+    var shell_string_ffmpeg_gif = "ffmpeg -i " + target_file_mp4 + " -i " + target_file_palette + " -lavfi 'fps=15,scale=320:-1:flags=lanczos [x]; [x][1:v] paletteuse' -y " + target_folder_gif_path + target_file_gif;
 
     console.log("shell_string_ffmpeg_gif::::: " + shell_string_ffmpeg_gif);
 
