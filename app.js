@@ -89,18 +89,22 @@ io.on('connection', function(socket){
     captureVideo();
   });
 
-
   // generate GIF from video
   socket.on('create gif', function(){
     console.log('create gif');
     createGIF();
   });
 
-
   // tweet GIF
   socket.on('tweet gif', function(){
     console.log('tweet gif');
     tweetGIF();
+  });
+
+  // tweet GIF
+  socket.on('fetch gifs', function(){
+    console.log('fetch gifs');
+    socket.emit("gifs fetched");
   });
 
 });
