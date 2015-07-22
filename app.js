@@ -26,7 +26,7 @@ var T = new Twit({
 var ipadress = "127.0.0.1";
 var target_file_still = "./public/images/cam.jpg";
 var target_file_gif = './public/videos/video.gif';
-var target_file_gif_external_path = '/videos/';
+var target_folder_gif_external_path = '/images/gif/';
 var target_file_palette = "./public/videos/palette.png";
 var target_file_mp4 = "./public/videos/video.mp4";
 var target_file_h264 = "./public/videos/video.h264";
@@ -38,7 +38,7 @@ var shell_string_delete = "rm -r -f /home/pi/nodejs/gifittome/public/videos/*";
 var shell_string_create_video = "raspivid -o " + target_file_h264 + " -w 400 -h 300 -t 5000";
 var shell_string_convert_video = "MP4Box -fps 30 -add " + target_file_h264 + " " + target_file_mp4;
 var shell_string_ffmpeg_palette = "ffmpeg -i " + target_file_mp4 + " -vf 'fps=15,scale=320:-1:flags=lanczos,palettegen' -y " + target_file_palette;
-var shell_string_ffmpeg_gif = "ffmpeg -i " + target_file_mp4 + " -i " + target_file_palette + " -lavfi 'fps=15,scale=320:-1:flags=lanczos [x]; [x][1:v] paletteuse' -y " + target_file_gif;
+//var shell_string_ffmpeg_gif = "ffmpeg -i " + target_file_mp4 + " -i " + target_file_palette + " -lavfi 'fps=15,scale=320:-1:flags=lanczos [x]; [x][1:v] paletteuse' -y " + target_file_gif;
 
 
 
@@ -150,7 +150,7 @@ function createGIF () {
     var datestring = d.getDate() + "_" + d.getMonth() + "_" + d.getFullYear() + "_" + d.getHours() + "-" + d.getMinutes() + "_video.gif";
     target_file_gif = datestring;
 
-    shell_string_ffmpeg_gif = "ffmpeg -i " + target_file_mp4 + " -i " + target_file_palette + " -lavfi 'fps=15,scale=320:-1:flags=lanczos [x]; [x][1:v] paletteuse' -y " + target_file_gif;
+    var shell_string_ffmpeg_gif = "ffmpeg -i " + target_file_mp4 + " -i " + target_file_palette + " -lavfi 'fps=15,scale=320:-1:flags=lanczos [x]; [x][1:v] paletteuse' -y " + target_folder_gif_external_path + target_file_gif;
 
     console.log("shell_string_ffmpeg_gif::::: " + shell_string_ffmpeg_gif);
 
@@ -160,7 +160,7 @@ function createGIF () {
 
       // QR code generating
 
-      var target_gif = "http://" + ip.address() + ":3000" + target_file_gif_external_path + target_file_gif;
+      var target_gif = "http://" + ip.address() + ":3000" + target_folder_gif_external_path + target_file_gif;
       console.log("#### GIF #### " + target_gif)
       var code = qr.image(target_gif, { type: 'png' });
       var output = fs.createWriteStream(target_file_qr);
