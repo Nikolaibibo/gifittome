@@ -145,13 +145,18 @@ function createGIF () {
     console.log("palette created!");
     io.emit('palette created');
 
+    // generate unique file name
+    var d = new Date();
+    var datestring = d.getDate() + "_" + d.getMonth() + "_" + d.getFullYear() + "_" + d.getHours() + "-" + d.getMinutes() + "_video.gif";
+    target_file_gif = datestring;
+
+
     shell.exec(shell_string_ffmpeg_gif, function(code, output) {
       console.log("GIF created");
 
 
       // QR code generating
-      var d = new Date();
-      var datestring = d.getDate() + "_" + d.getMonth() + "_" + d.getFullYear() + "_" + d.getHours() + "-" + d.getMinutes() + "_video.gif";
+
       var target_gif = "http://" + ip.address() + ":3000" + target_file_gif_external_path + datestring;
       console.log("#### GIF #### " + target_gif)
       var code = qr.image(target_gif, { type: 'png' });
