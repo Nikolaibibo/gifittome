@@ -157,7 +157,7 @@ function createGIF () {
 
       // QR code generating
 
-      var target_gif = "http://" + ip.address() + ":3000" + target_file_gif_external_path + datestring;
+      var target_gif = "http://" + ip.address() + ":3000" + target_file_gif_external_path + target_file_gif;
       console.log("#### GIF #### " + target_gif)
       var code = qr.image(target_gif, { type: 'png' });
       var output = fs.createWriteStream(target_file_qr);
