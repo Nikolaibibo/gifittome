@@ -104,6 +104,9 @@ io.on('connection', function(socket){
   // tweet GIF
   socket.on('fetch gifs', function(){
     console.log('fetch gifs');
+
+    // TODO: fetch folder contents 
+
     socket.emit("gifs fetched");
   });
 
