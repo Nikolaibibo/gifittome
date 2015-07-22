@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>GIF Sammlung</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+  </head>
+
+  <body>
+
+    <h1>Gesammelte GIFs</h1>
+
+    <div id="gifs" class="gifs">
+    </div>
+
+
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+
+    <script>
+      var socket = io();
+
+      // image stuff
+      socket.on('gifs fetched', function(msg){
+        alert("gifs fetched");
+      });
+
+    </script>
+  </body>
+</html>

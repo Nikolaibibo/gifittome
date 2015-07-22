@@ -56,6 +56,15 @@ app.get('/', function(req, res, next){
   res.sendFile(path.join(__dirname, './public', 'start.html'));
 });
 
+// express.js ROUTING -> root
+app.get('/gifs', function(req, res, next){
+  console.log("gifs page");
+  next();
+}, function (req, res) {
+  res.sendFile(path.join(__dirname, './public', 'gifs.html'));
+});
+
+
 
 
 // socket.io -> on Connection
