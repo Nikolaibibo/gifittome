@@ -26,7 +26,7 @@ var T = new Twit({
 var ipadress = "127.0.0.1";
 var target_file_still = "./public/images/cam.jpg";
 var target_file_gif = './public/videos/video.gif';
-var target_file_gif_external = '/videos/video.gif';
+var target_file_gif_external_path = '/videos/';
 var target_file_palette = "./public/videos/palette.png";
 var target_file_mp4 = "./public/videos/video.mp4";
 var target_file_h264 = "./public/videos/video.h264";
@@ -150,7 +150,9 @@ function createGIF () {
 
 
       // QR code generating
-      var target_gif = "http://" + ip.address() + ":3000" + target_file_gif_external;
+      var d = new Date();
+      var datestring = d.getDate() + "_" + d.getMonth() + "_" + d.getFullYear() + "_" + d.getHours() + "-" + d.getMinutes() + "_video.gif";
+      var target_gif = "http://" + ip.address() + ":3000" + target_file_gif_external_path + datestring;
       console.log("#### GIF #### " + target_gif)
       var code = qr.image(target_gif, { type: 'png' });
       var output = fs.createWriteStream(target_file_qr);
