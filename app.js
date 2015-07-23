@@ -108,9 +108,34 @@ io.on('connection', function(socket){
   socket.on('fetch gifs', function(){
     console.log('fetch gifs');
 
-    searchDirectory();
+    // Walker options
+    var files   = [];
+    var walker  = walk.walk('./public/images/gif', { followLinks: false });
 
-    socket.emit("gifs fetched");
+    walker.on('file', function(root, stat, next) {
+        // Add this file to the list of files
+        files.push(root + '/' + stat.name);
+        next();
+    });
+
+    walker.on('end', function() {
+        //console.log(giffiles);
+
+        for (var i = 0; i < files.length; i++) {
+          var str = files[i];
+          var strEdit = str.replace("./public/", "");
+          //console.log(strEdit);
+
+          giffiles.push(strEdit);
+
+        }
+
+        //console.log(giffiles);
+        socket.emit("gifs fetched", giffiles);
+
+    });
+
+
   });
 
 });
@@ -121,36 +146,6 @@ http.listen(3000, function(){
   console.log('listening on *:3000');
 });
 
-
-// search GIFs
-function searchDirectory () {
-  // Walker options
-  var files   = [];
-  var walker  = walk.walk('./public/images/gif', { followLinks: false });
-
-  walker.on('file', function(root, stat, next) {
-      // Add this file to the list of files
-      files.push(root + '/' + stat.name);
-      next();
-  });
-
-  walker.on('end', function() {
-      //console.log(giffiles);
-
-      for (var i = 0; i < files.length; i++) {
-        var str = files[i];
-        var strEdit = str.replace("./public/", "");
-        //console.log(strEdit);
-
-        giffiles.push(strEdit);
-
-      }
-
-      console.log(giffiles);
-
-  });
-
-}
 
 
 // custom function for capturing image

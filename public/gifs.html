@@ -27,6 +27,8 @@
       // image stuff
       socket.on('gifs fetched', function(msg){
         //alert("gifs fetched");
+        console.log(msg);
+
       });
 
       socket.emit('fetch gifs');
