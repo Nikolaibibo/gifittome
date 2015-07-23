@@ -230,7 +230,7 @@ function tweetGIF () {
 
   // Load your image
   //var data = require('fs').readFileSync('./public/videos/video.gif');
-  var b64content = fs.readFileSync(target_file_gif, { encoding: 'base64' })
+  var b64content = fs.readFileSync(target_folder_gif_path + target_file_gif, { encoding: 'base64' })
 
   // first we must post the media to Twitter
   T.post('media/upload', { media_data: b64content }, function (err, data, response) {
