@@ -109,7 +109,7 @@ io.on('connection', function(socket){
     console.log('fetch gifs');
 
     // Walker options
-    var walker  = walk.walk('./images/gif', { followLinks: false });
+    var walker  = walk.walk('./public/images/gif', { followLinks: false });
 
     walker.on('file', function(root, stat, next) {
         // Add this file to the list of files
