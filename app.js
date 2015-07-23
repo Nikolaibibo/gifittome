@@ -146,7 +146,7 @@ function searchDirectory () {
 
       }
 
-      console.log(giffiles);
+      console.log(files);
 
   });
 
