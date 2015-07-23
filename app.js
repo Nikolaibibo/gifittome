@@ -110,6 +110,7 @@ io.on('connection', function(socket){
 
     // Walker options
     var files   = [];
+    giffiles = [];
     var walker  = walk.walk('./public/images/gif', { followLinks: false });
 
     walker.on('file', function(root, stat, next) {
