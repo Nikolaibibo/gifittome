@@ -125,12 +125,12 @@ http.listen(3000, function(){
 // search GIFs
 function searchDirectory () {
   // Walker options
-  giffiles   = [];
+  var files   = [];
   var walker  = walk.walk('./public/images/gif', { followLinks: false });
 
   walker.on('file', function(root, stat, next) {
       // Add this file to the list of files
-      giffiles.push(root + '/' + stat.name);
+      files.push(root + '/' + stat.name);
       next();
   });
 
@@ -140,10 +140,13 @@ function searchDirectory () {
       for (var i = 0; i < giffiles.length; i++) {
         var str = giffiles[i];
         var strEdit = str.replace("./public/", "");
-        console.log(strEdit);
+        //console.log(strEdit);
+
+        giffiles.push(strEdit);
 
       }
 
+      console.log(giffiles);
 
   });
 
