@@ -10,8 +10,11 @@ var fs = require('fs');
 var qr = require('qr-image');
 var os = require('os');
 var ip = require('ip');
+var walk    = require('walk');
+
 var ifaces = os.networkInterfaces();
 
+var giffiles   = [];
 
 
 // twitter credentials
@@ -101,11 +104,24 @@ io.on('connection', function(socket){
     tweetGIF();
   });
 
-  // tweet GIF
+  // fetch GIFs
   socket.on('fetch gifs', function(){
     console.log('fetch gifs');
 
-    // TODO: fetch folder contents 
+    // Walker options
+    var walker  = walk.walk('./images/gif', { followLinks: false });
+
+    walker.on('file', function(root, stat, next) {
+        // Add this file to the list of files
+        giffiles.push(root + '/' + stat.name);
+        next();
+    });
+
+    walker.on('end', function() {
+        console.log(giffiles);
+    });
+
+
 
     socket.emit("gifs fetched");
   });
