@@ -108,20 +108,7 @@ io.on('connection', function(socket){
   socket.on('fetch gifs', function(){
     console.log('fetch gifs');
 
-    // Walker options
-    var walker  = walk.walk('./public/images/gif', { followLinks: false });
-
-    walker.on('file', function(root, stat, next) {
-        // Add this file to the list of files
-        giffiles.push(root + '/' + stat.name);
-        next();
-    });
-
-    walker.on('end', function() {
-        console.log(giffiles);
-    });
-
-
+    searchDirectory();
 
     socket.emit("gifs fetched");
   });
@@ -135,7 +122,32 @@ http.listen(3000, function(){
 });
 
 
+// search GIFs
+function searchDirectory () {
+  // Walker options
+  giffiles   = [];
+  var walker  = walk.walk('./public/images/gif', { followLinks: false });
 
+  walker.on('file', function(root, stat, next) {
+      // Add this file to the list of files
+      giffiles.push(root + '/' + stat.name);
+      next();
+  });
+
+  walker.on('end', function() {
+      //console.log(giffiles);
+
+      for (var i = 0; i < giffiles.length; i++) {
+        var str = giffiles[i];
+        str.replace("./public/", "");
+        console.log(str);
+
+      }
+
+
+  });
+
+}
 
 
 // custom function for capturing image
