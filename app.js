@@ -123,7 +123,7 @@ io.on('connection', function(socket){
 
         for (var i = 0; i < files.length; i++) {
           var str = files[i];
-          var strEdit = str.replace("./public/", "");
+          var strEdit = str.replace("./public", "");
           //console.log(strEdit);
 
           giffiles.push(strEdit);

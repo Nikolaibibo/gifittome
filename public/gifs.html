@@ -25,13 +25,19 @@
       var socket = io();
 
       // image stuff
-      socket.on('gifs fetched', function(msg){
+      socket.on('gifs fetched', function(arr){
         //alert("gifs fetched");
-        console.log(msg);
+        console.log(arr);
 
-        for (var i = 0; i < msg.length; i++) {
-          console.log("gif::::" + msg[i]);
+        /*
+        for (var i = 0; i < arr.length; i++) {
+          console.log("gif::::" + arr[i]);
         }
+        */
+        var $div = $("#gifs");
+        $.each(arr, function(i, val) {
+          $("<img />").attr("src", val).appendTo($div);
+        });
 
       });
 
