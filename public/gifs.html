@@ -29,6 +29,10 @@
         //alert("gifs fetched");
         console.log(msg);
 
+        for (var i = 0; i < msg.length; i++) {
+          console.log("gif::::" + msg[i]);
+        }
+
       });
 
       socket.emit('fetch gifs');
