@@ -137,8 +137,8 @@ function searchDirectory () {
   walker.on('end', function() {
       //console.log(giffiles);
 
-      for (var i = 0; i < giffiles.length; i++) {
-        var str = giffiles[i];
+      for (var i = 0; i < files.length; i++) {
+        var str = files[i];
         var strEdit = str.replace("./public/", "");
         //console.log(strEdit);
 
@@ -146,7 +146,7 @@ function searchDirectory () {
 
       }
 
-      console.log(files);
+      console.log(giffiles);
 
   });
 
