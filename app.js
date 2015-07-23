@@ -139,8 +139,8 @@ function searchDirectory () {
 
       for (var i = 0; i < giffiles.length; i++) {
         var str = giffiles[i];
-        str.replace("./public/", "");
-        console.log(str);
+        var strEdit = str.replace("./public/", "");
+        console.log(strEdit);
 
       }
 
