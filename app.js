@@ -68,77 +68,23 @@ app.get('/gifs', function(req, res, next){
 });
 
 
-
-
 // socket.io -> on Connection
 io.on('connection', function(socket){
-
   console.log('a user connected');
-
   // disconnect
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
-
   // generate and update the image
-  socket.on('update image', function(){
-    console.log('update image');
-    captureImage();
-  });
-
+  socket.on('update image', captureImage);
   // generate and update the video
-  socket.on('create video', function(){
-    console.log('create video');
-    captureVideo();
-  });
-
+  socket.on('create video', captureVideo);
   // generate GIF from video
-  socket.on('create gif', function(){
-    console.log('create gif');
-    createGIF();
-  });
-
+  socket.on('create gif', createGIF);
   // tweet GIF
-  socket.on('tweet gif', function(){
-    console.log('tweet gif');
-    tweetGIF();
-  });
-
+  socket.on('tweet gif', tweetGIF);
   // fetch GIFs
-  socket.on('fetch gifs', function(){
-    console.log('fetch gifs');
-
-    // Walker options
-    var files   = [];
-    giffiles = [];
-    var walker  = walk.walk('./public/images/gif', { followLinks: false });
-
-    walker.on('file', function(root, stat, next) {
-        // Add this file to the list of files
-        files.push(root + '/' + stat.name);
-        next();
-    });
-
-    walker.on('end', function() {
-        //console.log(giffiles);
-
-        for (var i = 0; i < files.length; i++) {
-          var str = files[i];
-          var strEdit = str.replace("./public", "");
-          //console.log(strEdit);
-
-          giffiles.push(strEdit);
-
-        }
-
-        //console.log(giffiles);
-        socket.emit("gifs fetched", giffiles);
-
-    });
-
-
-  });
-
+  socket.on('fetch gifs', fetchGIFs);
 });
 
 
@@ -148,6 +94,32 @@ http.listen(3000, function(){
 });
 
 
+function fetchGIFs () {
+  console.log('fetch gifs');
+
+  // Walker options
+  var files   = [];
+  giffiles = [];
+  var walker  = walk.walk('./public/images/gif', { followLinks: false });
+
+  walker.on('file', function(root, stat, next) {
+      // Add this file to the list of files
+      files.push(root + '/' + stat.name);
+      next();
+  });
+
+  walker.on('end', function() {
+      //console.log(giffiles);
+      for (var i = 0; i < files.length; i++) {
+        var str = files[i];
+        var strEdit = str.replace("./public", "");
+        //console.log(strEdit);
+        giffiles.push(strEdit);
+      }
+      //console.log(giffiles);
+      socket.emit("gifs fetched", giffiles);
+  });
+}
 
 // custom function for capturing image
 function captureImage () {
