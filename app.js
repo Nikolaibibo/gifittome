@@ -37,7 +37,7 @@ var target_file_h264 = "./public/videos/video.h264";
 var target_file_qr = "./public/images/qr.png";
 
 // shell string for shell.js
-var shell_string_stillimage = "raspistill -o " + target_file_still + " -w 320 -h 240";
+var shell_string_stillimage = "raspistill -o " + target_file_still + " -w 320 -h 240 -t 500";
 var shell_string_delete = "rm -r -f /home/pi/nodejs/gifittome/public/videos/*";
 var shell_string_create_video = "raspivid -o " + target_file_h264 + " -w 400 -h 300 -t 5000";
 var shell_string_convert_video = "MP4Box -fps 30 -add " + target_file_h264 + " " + target_file_mp4;
