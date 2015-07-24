@@ -8,25 +8,23 @@ var shell = require('shelljs');
 var Twit = require('twit');
 var fs = require('fs');
 var qr = require('qr-image');
-var os = require('os');
 var ip = require('ip');
-var walk    = require('walk');
+var walk = require('walk');
 
-var ifaces = os.networkInterfaces();
+var credentials = require('./twitter_credentials.json');
 
 var giffiles   = [];
 
-
 // twitter credentials
 var T = new Twit({
-  consumer_key: 'LZ08cNSka1M1j6wLpt3KKKpjy',
-  consumer_secret: '078OMSZKEBFslpug7flCgNqZQfMq5GC9TrKjDe5sVfRrerUTpC',
-  access_token: '2965830814-Y0m8FipYsyYkIkUbT2HqTbFEdBEbLP7Gu7AmqjD',
-  access_token_secret: 'gV2tVBE1fLGVGTbFQLj6UqTXHvPS8icREkJuohrMX0rm9'
+  consumer_key: credentials.twitter_consumer_key,
+  consumer_secret: credentials.twitter_consumer_secret,
+  access_token: credentials.twitter_access_token_key,
+  access_token_secret: credentials.twitter_access_token_secret
 });
 
 // config vars
-var ipadress = "127.0.0.1";
+// TODO: clean up
 var target_file_still = "./public/images/cam.jpg";
 var target_file_gif = './public/videos/video.gif';
 var target_folder_gif_external_path = '/images/gif/';
@@ -44,12 +42,8 @@ var shell_string_convert_video = "MP4Box -fps 30 -add " + target_file_h264 + " "
 var shell_string_ffmpeg_palette = "ffmpeg -i " + target_file_mp4 + " -vf 'fps=15,scale=320:-1:flags=lanczos,palettegen' -y " + target_file_palette;
 //var shell_string_ffmpeg_gif = "ffmpeg -i " + target_file_mp4 + " -i " + target_file_palette + " -lavfi 'fps=15,scale=320:-1:flags=lanczos [x]; [x][1:v] paletteuse' -y " + target_file_gif;
 
-
-
-
 // express.js PUBLIC STATIC FILES
 app.use(express.static('public'));
-
 
 // express.js ROUTING -> root
 app.get('/', function(req, res, next){
@@ -107,20 +101,16 @@ function fetchGIFs () {
   var walker  = walk.walk('./public/images/gif', { followLinks: false });
 
   walker.on('file', function(root, stat, next) {
-      // Add this file to the list of files
       files.push(root + '/' + stat.name);
       next();
   });
 
   walker.on('end', function() {
-      //console.log(giffiles);
       for (var i = 0; i < files.length; i++) {
         var str = files[i];
         var strEdit = str.replace("./public", "");
-        //console.log(strEdit);
         giffiles.push(strEdit);
       }
-      //console.log(giffiles);
       io.emit("gifs fetched", giffiles);
   });
 }
@@ -128,7 +118,7 @@ function fetchGIFs () {
 // custom function for capturing image
 function captureImage () {
   shell.exec(shell_string_stillimage, function(code, output) {
-    console.log("image created!");
+    console.log("still image created!");
     io.emit('image created');
   });
 }
@@ -137,8 +127,6 @@ function captureImage () {
 function captureVideo () {
   console.log("js captureVideo");
   shell.exec(shell_string_delete, function(code, output) {
-    //console.log('Exit code:', code);
-    //console.log('Program output:', output);
     console.log("videos deleted");
 
     shell.exec(shell_string_create_video, function(code, output) {
@@ -149,8 +137,6 @@ function captureVideo () {
         console.log("video converted");
         io.emit('video created');
 
-        // todo: fix this ;)
-        getIP();
       });
     });
 
@@ -216,37 +202,9 @@ function tweetGIF () {
     var params = { status: '#GIF_it_to_me', media_ids: [mediaIdStr] }
 
     T.post('statuses/update', params, function (err, data, response) {
-      //console.log(data);
+      console.log("tweeted image succesful");
       io.emit('gif tweeted');
     })
   })
-
-}
-
-// custom function for gathering IP adresses for qr code generation
-function getIP () {
-  Object.keys(ifaces).forEach(function (ifname) {
-    var alias = 0;
-
-    ifaces[ifname].forEach(function (iface) {
-      if ('IPv4' !== iface.family || iface.internal !== false) {
-        // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
-        return;
-      }
-
-      if (alias >= 1) {
-        // this single interface has multiple ipv4 addresses
-        console.log("multiple ip addresses");
-        console.log(ifname + ':' + alias, iface.address);
-        ipadress = iface.adress;
-
-      } else {
-        // this interface has only one ipv4 adress
-        console.log("single ip adress");
-        console.log(ifname, iface.address);
-        ipadress = iface.adress;
-      }
-    });
-  });
 
 }
