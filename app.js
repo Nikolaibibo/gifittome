@@ -67,9 +67,13 @@ app.get('/gifs', function(req, res, next){
   res.sendFile(path.join(__dirname, './public', 'gifs.html'));
 });
 
-
+// variable holder for callback function gifs fetched
+//var io_socket;
 // socket.io -> on Connection
 io.on('connection', function(socket){
+
+  //io_socket = socket;
+
   console.log('a user connected');
   // disconnect
   socket.on('disconnect', function(){
@@ -117,7 +121,7 @@ function fetchGIFs () {
         giffiles.push(strEdit);
       }
       //console.log(giffiles);
-      socket.emit("gifs fetched", giffiles);
+      io.emit("gifs fetched", giffiles);
   });
 }
 
