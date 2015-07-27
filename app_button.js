@@ -120,14 +120,6 @@ function fetchGIFs () {
   });
 }
 
-// custom function for capturing image
-function captureImage () {
-  shell.exec(shell_string_stillimage, function(code, output) {
-    console.log("still image created!");
-    io.emit('image created');
-  });
-}
-
 // custom function for capturing video
 function captureVideo () {
   console.log("js captureVideo");
@@ -140,8 +132,8 @@ function captureVideo () {
       shell.exec(shell_string_convert_video, function(code, output) {
 
         console.log("video converted");
-        io.emit('video created');
-
+        //io.emit('video created');
+        createGIF();
       });
     });
 
@@ -180,7 +172,7 @@ function createGIF () {
       // wait a bit because of file output before emitting qr complete event
       setTimeout(function(){
         io.emit('qr created');
-      }, 500);
+      }, 300);
 
       // gif path as message
       var tmppath = target_folder_gif_external_path + target_file_gif;
@@ -218,7 +210,6 @@ function tweetGIF () {
 // Main busy loop uses setTimeout internally, rather than setInterval.  It was because I had
 // different delays in different cases, but I don't think it really matters a whole lot either
 // way.
-startListening();
 
 function startListening() {
 	pfio.init();
@@ -240,10 +231,13 @@ function watchInputs() {
 
     if (state == 2) {
       console.log("button pushed");
-      captureImage();
+      //captureImage();
+      captureVideo();
     }
 
 		prev_state = state;
 	}
 	setTimeout(watchInputs, 10);
 }
+
+startListening();

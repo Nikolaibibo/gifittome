@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Start gifItToMe</title>
+    <link rel="stylesheet" href="stylesheets/style_button.css">
+  </head>
+
+  <body>
+
+    <h1>Start gifItToMe</h1>
+    <p>Push the red button, please...</p>
+
+    <div id="gif" class="gif">
+      <img src="images/transp.gif" id="previewgif">
+    </div>
+
+    <div id="qr">
+      <img src="images/transp.gif" id="transp">
+    </div>
+
+
+    <div id="loader">
+      <img src="images/loader.gif">
+      <p id="statustext">Statusmeldung die länger ist</p>
+    </div>
+
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      var socket = io();
+
+      hideLoader();
+
+      // GIF stuff
+      socket.on('gif created', function(msg){
+        hideLoader();
+
+        var random = Math.random() * 1000000;
+        var randomStr = "?rand=" + random;
+        //var gifsrc = "/videos/video.gif?rand=" + random;
+        var gifsrc = msg + randomStr;
+        //alert("gif created" + gifsrc);
+
+        $("#previewgif").attr("src", gifsrc);
+      });
+
+      socket.on('palette created', function(msg){
+        updateLoaderText("palette created, generating GIF now");
+      });
+
+
+      // GIF stuff
+      socket.on('qr created', function(msg){
+        //$('#qr').prepend('<img id="qrcode" src="images/qr.png" />');
+        var random = Math.random() * 1000000;
+        var randomStr = "?rand=" + random;
+        //var gifsrc = "/videos/video.gif?rand=" + random;
+        var transpgifsrc = "images/qr.png" + randomStr;
+
+        $("#transp").attr("src", transpgifsrc);
+      });
+
+
+
+
+      // loader show/hide
+      function showLoader (msg) {
+        $("#statustext").text(msg);
+        $("#loader").show();
+      }
+      function hideLoader () {
+        $("#loader").hide();
+      }
+
+      // update loader text
+      function updateLoaderText (msg) {
+          $("#statustext").text(msg);
+      }
+
+
+    </script>
+  </body>
+</html>
