@@ -237,6 +237,11 @@ function watchInputs() {
 	if (state !== prev_state) {
 		//EventBus.emit('pfio.inputs.changed', state, prev_state);
     console.log("pfio.inputs.changed:::: " + state);
+
+    if (state == 2) {
+      console.log("button pushed");
+    }
+
 		prev_state = state;
 	}
 	setTimeout(watchInputs, 10);
