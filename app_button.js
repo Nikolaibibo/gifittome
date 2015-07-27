@@ -55,7 +55,7 @@ app.get('/', function(req, res, next){
   console.log("root page");
   next();
 }, function (req, res) {
-  res.sendFile(path.join(__dirname, './public', 'start.html'));
+  res.sendFile(path.join(__dirname, './public', 'button.html'));
 });
 
 // express.js ROUTING -> root
