@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+irewo<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -30,7 +30,7 @@
     </div>
 
     <div id="qr">
-
+      <img src="images/transp.gif" id="transp">
     </div>
 
     <div id="navigation">
@@ -98,7 +98,13 @@
 
       // GIF stuff
       socket.on('qr created', function(msg){
-        $('#qr').prepend('<img id="qrcode" src="images/qr.png" />')
+        //$('#qr').prepend('<img id="qrcode" src="images/qr.png" />');
+        var random = Math.random() * 1000000;
+        var randomStr = "?rand=" + random;
+        //var gifsrc = "/videos/video.gif?rand=" + random;
+        var transpgifsrc = "images/qr.png" + randomStr;
+
+        $("#qr").attr("src", transpgifsrc);
       });
 
 
