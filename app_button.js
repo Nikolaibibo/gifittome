@@ -172,6 +172,8 @@ function createGIF () {
       // wait a bit because of file output before emitting qr complete event
       setTimeout(function(){
         io.emit('qr created');
+
+        tweetGIF();
       }, 300);
 
       // gif path as message
