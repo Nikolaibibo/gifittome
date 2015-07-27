@@ -79,7 +79,7 @@ io.on('connection', function(socket){
     console.log('user disconnected');
   });
   // generate and update the image
-  socket.on('update image', captureImage);
+  //socket.on('update image', captureImage);
   // generate and update the video
   socket.on('create video', captureVideo);
   // generate GIF from video
