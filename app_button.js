@@ -240,6 +240,7 @@ function watchInputs() {
 
     if (state == 2) {
       console.log("button pushed");
+      captureImage();
     }
 
 		prev_state = state;
