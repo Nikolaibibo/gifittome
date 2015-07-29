@@ -10,7 +10,8 @@ var fs = require('fs');
 var qr = require('qr-image');
 var ip = require('ip');
 var walk = require('walk');
-var pfio = require('piface-node');
+//var pfio = require('piface-node');
+var gpio = require("gpio");
 
 var credentials = require('./twitter_credentials.json');
 
@@ -208,38 +209,21 @@ function tweetGIF () {
 
 }
 
+var gpio20 = gpio.export(20, {
+   direction: "in",
+   //interval: 200,
+   ready: function() {
+     console.log("ping");
+   }
+});
 
-// Main busy loop uses setTimeout internally, rather than setInterval.  It was because I had
-// different delays in different cases, but I don't think it really matters a whole lot either
-// way.
+gpio20.on("change", function(val) {
+   // value will report either 1 or 0 (number) when the value changes
+   //console.log(val)
 
-function startListening() {
-	pfio.init();
-	watchInputs();
-}
-
-function stopListening() {
-	pfio.deinit();
-	process.exit(0);
-}
-
-// Watches for state changes
-function watchInputs() {
-	var state;
-	state = pfio.read_input();
-	if (state !== prev_state) {
-		//EventBus.emit('pfio.inputs.changed', state, prev_state);
-    console.log("pfio.inputs.changed:::: " + state);
-
-    if (state == 2) {
-      console.log("button pushed");
-      //captureImage();
-      captureVideo();
-    }
-
-		prev_state = state;
-	}
-	setTimeout(watchInputs, 10);
-}
-
-startListening();
+   if (val == 1) {
+     console.log("button release");
+   }else if (val == 0) {
+     console.log("button down");
+   }
+});
