@@ -125,13 +125,15 @@ function captureVideo () {
 
     shell.exec(shell_string_create_video, function(code, output) {
       console.log("video created!");
-
+      createGIF();
+      /*
       shell.exec(shell_string_convert_video, function(code, output) {
 
         console.log("video converted");
         //io.emit('video created');
         createGIF();
       });
+      */
     });
 
   });
@@ -150,7 +152,7 @@ function createGIF () {
     var datestring = d.getDate() + "_" + d.getMonth() + "_" + d.getFullYear() + "_" + d.getHours() + "-" + d.getMinutes() + "_video.gif";
     target_file_gif = datestring;
 
-    var shell_string_ffmpeg_gif = "ffmpeg -i " + target_file_mp4 + " -i " + target_file_palette + " -lavfi 'fps=15,scale=320:-1:flags=lanczos [x]; [x][1:v] paletteuse' -y " + target_folder_gif_path + target_file_gif;
+    var shell_string_ffmpeg_gif = "ffmpeg -i " + target_file_h264 + " -i " + target_file_palette + " -lavfi 'fps=15,scale=320:-1:flags=lanczos [x]; [x][1:v] paletteuse' -y " + target_folder_gif_path + target_file_gif;
 
     console.log("shell_string_ffmpeg_gif::::: " + shell_string_ffmpeg_gif);
 
