@@ -16,7 +16,7 @@ var gpio = require("gpio");
 var credentials = require('./twitter_credentials.json');
 
 var giffiles   = [];
-var prev_state = 0;
+var captureIsBusy = false;
 
 // twitter credentials
 var T = new Twit({
@@ -201,11 +201,15 @@ function tweetGIF () {
     T.post('statuses/update', params, function (err, data, response) {
       console.log("tweeted image succesful");
       io.emit('gif tweeted');
+
+      captureIsBusy = false;
     })
   })
 
 }
 
+
+// Button code
 var gpio20 = gpio.export(20, {
    direction: "in",
    //interval: 200,
@@ -215,12 +219,15 @@ var gpio20 = gpio.export(20, {
 });
 
 gpio20.on("change", function(val) {
-   // value will report either 1 or 0 (number) when the value changes
-   //console.log(val)
-
    if (val == 1) {
      console.log("button release");
    }else if (val == 0) {
      console.log("button down");
+     if (!captureIsBusy) {
+       captureVideo();
+     }else {
+       console.log("capture is busy right now, canceling execution");
+     }
+     captureIsBusy = true;
    }
 });
