@@ -18,9 +18,6 @@ var credentials = require('./twitter_credentials.json');
 var giffiles   = [];
 var prev_state = 0;
 
-// Watch for Ctrl+C
-process.on('SIGINT', stopListening);
-
 // twitter credentials
 var T = new Twit({
   consumer_key: credentials.twitter_consumer_key,
