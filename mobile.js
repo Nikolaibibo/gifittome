@@ -43,13 +43,6 @@ function shutdownAll () {
 function kill () {
   process.exit(0);
 }
-// twitter credentials
-var T = new Twit({
-  consumer_key: credentials.twitter_consumer_key,
-  consumer_secret: credentials.twitter_consumer_secret,
-  access_token: credentials.twitter_access_token_key,
-  access_token_secret: credentials.twitter_access_token_secret
-});
 
 // config vars
 // TODO: clean up
