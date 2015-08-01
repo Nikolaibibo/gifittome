@@ -19,11 +19,11 @@ var captureIsBusy = false;
 var helper = new GpioHelper();
 helper.on("button-released", function (resultobject) {
   console.log("button-released");
-}
+});
 helper.on("button-down", function (resultobject) {
   console.log("button-down");
   captureVideo();
-}
+});
 
 
 
