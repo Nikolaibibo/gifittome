@@ -245,7 +245,7 @@ function startBlinkingRed () {
 function stopBlinkingRed () {
   clearInterval(blinkInterval);
 
-  gpio16.reset();
+  gpio16.set(0);
 }
 
 function toggleLED () {
