@@ -1,4 +1,6 @@
-var gpio = require("gpio");
+var EventEmitter        = require("events").EventEmitter;
+var util                = require("util");
+var gpio                = require("gpio");
 
 var _this; // scoping shizzel
 var blinkRedInterval;
