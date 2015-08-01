@@ -4,6 +4,7 @@ var gpio                = require("gpio");
 
 var _this; // scoping shizzel
 var blinkRedInterval;
+var blinkYellowInterval;
 
 
 
@@ -67,6 +68,15 @@ function toggleRedLED () {
   }
 }
 
+// yellow LED blinking
+function toggleYellowLED () {
+  if (gpio26.value == 1) {
+    gpio26.set(0);
+  } else {
+    gpio26.set();
+  }
+}
+
 
 
 
@@ -87,6 +97,7 @@ GpioHelper.prototype.stopBlinkingRed = function () {
   gpio16.set(0);
 }
 GpioHelper.prototype.stopRed = function () {
+  clearInterval(blinkRedInterval);
   gpio16.set(0);
 }
 
@@ -98,6 +109,14 @@ GpioHelper.prototype.stopGreen = function () {
   gpio12.set(0);
 }
 
+
+GpioHelper.prototype.startBlinkingYellow = function () {
+  blinkYellowInterval = setInterval(toggleYellowLED, 250);
+}
+GpioHelper.prototype.stopBlinkingYellow = function () {
+  clearInterval(blinkYellowInterval);
+  gpio26.set(0);
+}
 
 GpioHelper.prototype.startYellow = function () {
   gpio26.set();

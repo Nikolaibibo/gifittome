@@ -25,6 +25,7 @@ gpio_helper.on("button-down", function (resultobject) {
   }else{
     gpio_helper.stopGreen();
     gpio_helper.startBlinkingRed();
+    gpio_helper.startBlinkingYellow();
 
     captureIsBusy = true;
     ffmpeg_helper.captureVideo();
@@ -37,6 +38,7 @@ gpio_helper.on("button-down", function (resultobject) {
 var ffmpeg_helper = new FfmpegHelper();
 ffmpeg_helper.on("video-created", function (resultobject) {
   console.log("video-created");
+  gpio_helper.stopBlinkingYellow();
   // create gif
   ffmpeg_helper.createGIF();
 });
