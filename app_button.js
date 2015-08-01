@@ -90,7 +90,8 @@ io.on('connection', function(socket){
 
 // listen on port
 http.listen(3000, function(){
-  console.log('listening on *:80');
+  console.log('listening on *:3000');
+  gpio12.set();
 });
 
 
@@ -120,6 +121,9 @@ function fetchGIFs () {
 // custom function for capturing video
 function captureVideo () {
   console.log("js captureVideo");
+
+  // green LED low
+  gpio12.set(0);
 
   // red LED high
   gpio16.set();
@@ -176,7 +180,7 @@ function createGIF () {
       setTimeout(function(){
         io.emit('qr created');
         gpio16.set(0);
-
+        gpio12.set();
         // remove after enabling auto-tweet
         captureIsBusy = false;
 
@@ -247,5 +251,15 @@ var gpio16 = gpio.export(16, {
    interval: 200,
    ready: function() {
      console.log("red LED ready");
+   }
+});
+
+// LED green code
+var gpio12 = gpio.export(12, {
+   direction: 'out',
+   interval: 200,
+   ready: function() {
+     console.log("green LED ready");
+
    }
 });
