@@ -1,6 +1,7 @@
 var EventEmitter        = require("events").EventEmitter;
 var util                = require("util");
 var shell               = require('shelljs');
+var ip                  = require('ip');
 
 var _this; // scoping shizzel
 var captureIsBusy = false;
