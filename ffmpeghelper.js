@@ -46,8 +46,7 @@ FfmpegHelper.prototype.captureVideo = function () {
     console.log("videos deleted");
     shell.exec(shell_string_create_video, function(code, output) {
       console.log("video created");
-      // TODO: bind to EventEmitter in mobile.js
-      //createGIF();
+      _this.emit("video-created", "testdata");
     });
   });
 }
@@ -58,7 +57,6 @@ FfmpegHelper.prototype.createGIF = function () {
 
   shell.exec(shell_string_ffmpeg_palette, function(code, output) {
     console.log("palette created!");
-    io.emit('palette created');
 
     // generate unique file name
     var d = new Date();
@@ -66,7 +64,6 @@ FfmpegHelper.prototype.createGIF = function () {
     target_file_gif = datestring;
 
     var shell_string_ffmpeg_gif = "ffmpeg -i " + target_file_h264 + " -i " + target_file_palette + " -lavfi 'fps=15,scale=320:-1:flags=lanczos [x]; [x][1:v] paletteuse' -y " + target_folder_gif_path + target_file_gif;
-
     console.log("shell_string_ffmpeg_gif::::: " + shell_string_ffmpeg_gif);
 
     shell.exec(shell_string_ffmpeg_gif, function(code, output) {
@@ -79,22 +76,16 @@ FfmpegHelper.prototype.createGIF = function () {
       var output = fs.createWriteStream(target_file_qr);
       code.pipe(output);
 
-      // wait a bit because of file output before emitting qr complete event
+      // wait a bit because of file output before emitting qr complete event,
+      // TODO: change to callback
       setTimeout(function(){
-        io.emit('qr created');
-        //gpio16.set(0);
-        gpio_helper.stopBlinkingRed();
-        gpio_helper.startGreen();
-
-        // remove after enabling auto-tweet
+        _this.emit("qr-created", "leer");
         captureIsBusy = false;
-
       }, 300);
 
-      // gif path as message
+      // pass gif path as message
       var tmppath = target_folder_gif_external_path + target_file_gif;
-
-      io.emit('gif created', tmppath);
+      _this.emit("gif-created", tmppath);
     });
 
   });
