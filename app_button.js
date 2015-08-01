@@ -24,6 +24,10 @@ function shutdownAll () {
   gpio12.set(0);
   gpio16.set(0);
 
+  setTimeout(500, kill);
+}
+
+function kill () {
   process.exit(0);
 }
 // twitter credentials
