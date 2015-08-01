@@ -1,4 +1,6 @@
-var shell = require('shelljs');
+var EventEmitter        = require("events").EventEmitter;
+var util                = require("util");
+var shell               = require('shelljs');
 
 var _this; // scoping shizzel
 var captureIsBusy = false;
