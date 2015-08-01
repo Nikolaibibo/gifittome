@@ -51,6 +51,7 @@ ffmpeg_helper.on("gif-created", function (tmpgifsrc) {
 ffmpeg_helper.on("qr-created", function (resultobject) {
 
   console.log("qr-created");
+  captureIsBusy = false;
 
   gpio_helper.stopBlinkingRed();
   gpio_helper.startGreen();
@@ -136,7 +137,7 @@ function shutdownAll () {
 
   gpio_helper.stopBlinkingRed();
   gpiohelper.stopBlinkingYellow();
-  
+
   gpio_helper.stopRed();
   gpio_helper.stopYellow();
   gpio_helper.stopGreen();
