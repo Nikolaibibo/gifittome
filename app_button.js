@@ -16,6 +16,7 @@ var credentials = require('./twitter_credentials.json');
 
 var giffiles   = [];
 var captureIsBusy = false;
+var blinkInterval;
 
 process.on('SIGINT', shutdownAll);
 
@@ -23,6 +24,8 @@ function shutdownAll () {
   console.log("shutdownAll");
   gpio12.set(0);
   gpio16.set(0);
+
+  stopBlinkingRed();
 
   setTimeout(kill, 500);
 }
@@ -139,7 +142,8 @@ function captureVideo () {
   gpio12.set(0);
 
   // red LED high
-  gpio16.set();
+  //gpio16.set();
+  startBlinkingRed();
 
   shell.exec(shell_string_delete, function(code, output) {
     console.log("videos deleted");
@@ -192,7 +196,8 @@ function createGIF () {
       // wait a bit because of file output before emitting qr complete event
       setTimeout(function(){
         io.emit('qr created');
-        gpio16.set(0);
+        //gpio16.set(0);
+        stopBlinkingRed();
         gpio12.set();
         // remove after enabling auto-tweet
         captureIsBusy = false;
@@ -231,9 +236,23 @@ function tweetGIF () {
       captureIsBusy = false;
     })
   })
-
 }
 
+function startBlinkingRed () {
+  blinkInterval = setInterval(toggleLED, 300);
+}
+
+function stopBlinkingRed () {
+  clearInterval(blinkInterval);
+}
+
+function toggleLED () {
+  if (gpio16.value == 1) {
+    gpio16.reset();
+  } else {
+    gpio16.set();
+  }
+}
 
 // Button code
 var gpio20 = gpio.export(20, {
