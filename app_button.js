@@ -89,8 +89,8 @@ io.on('connection', function(socket){
 
 
 // listen on port
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+http.listen(80, function(){
+  console.log('listening on *:80');
 });
 
 
@@ -120,6 +120,10 @@ function fetchGIFs () {
 // custom function for capturing video
 function captureVideo () {
   console.log("js captureVideo");
+
+  // red LED high
+  gpio16.set();
+
   shell.exec(shell_string_delete, function(code, output) {
     console.log("videos deleted");
 
@@ -171,8 +175,12 @@ function createGIF () {
       // wait a bit because of file output before emitting qr complete event
       setTimeout(function(){
         io.emit('qr created');
+        gpio16.set(0);
 
-        tweetGIF();
+        // remove after enabling auto-tweet
+        captureIsBusy = false;
+
+        //tweetGIF();
       }, 300);
 
       // gif path as message
@@ -230,5 +238,14 @@ gpio20.on("change", function(val) {
        console.log("capture is busy right now, canceling execution");
      }
      captureIsBusy = true;
+   }
+});
+
+// LED red code
+var gpio16 = gpio.export(16, {
+   direction: 'out',
+   interval: 200,
+   ready: function() {
+     console.log("red LED ready");
    }
 });
