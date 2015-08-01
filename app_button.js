@@ -89,7 +89,7 @@ io.on('connection', function(socket){
 
 
 // listen on port
-http.listen(80, function(){
+http.listen(3000, function(){
   console.log('listening on *:80');
 });
 
