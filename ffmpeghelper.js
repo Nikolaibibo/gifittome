@@ -6,7 +6,6 @@ var fs                  = require('fs');
 var qr                  = require('qr-image');
 
 var _this; // scoping shizzel
-var captureIsBusy = false;
 
 // config vars
 // TODO: clean up
@@ -39,7 +38,6 @@ util.inherits(FfmpegHelper, EventEmitter);
 FfmpegHelper.prototype.captureVideo = function () {
 
   console.log("FfmpegHelper captureVideo");
-  captureIsBusy = true;
 
   shell.exec(shell_string_delete, function(code, output) {
     console.log("videos deleted");
@@ -79,7 +77,6 @@ FfmpegHelper.prototype.createGIF = function () {
       // TODO: change to callback
       setTimeout(function(){
         _this.emit("qr-created", "leer");
-        captureIsBusy = false;
       }, 300);
 
       // pass gif path as message
@@ -89,7 +86,5 @@ FfmpegHelper.prototype.createGIF = function () {
 
   });
 }
-
-
 
 module.exports = FfmpegHelper;

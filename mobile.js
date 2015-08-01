@@ -3,19 +3,17 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var path = require('path');
-var shell = require('shelljs');
-
 var walk = require('walk');
-var gpio = require("gpio");
 
 var GpioHelper = require("./gpiohelper.js");
 var FfmpegHelper = require("./ffmpeghelper.js");
 
 var giffiles   = [];
-
 var captureIsBusy = false;
 
+// #######################
 // GPIO Helper and Events
+// #######################
 var gpio_helper = new GpioHelper();
 gpio_helper.on("button-released", function (resultobject) {
   console.log("button-released");
@@ -25,22 +23,17 @@ gpio_helper.on("button-down", function (resultobject) {
   if (captureIsBusy) {
     console.log("capture process running");
   }else{
-
-    // green LED low
     gpio_helper.stopGreen();
-
-    // red LED high
     gpio_helper.startBlinkingRed();
 
-    // capturevideo
     captureIsBusy = true;
     ffmpeg_helper.captureVideo();
   }
 });
 
-
-
+// #######################
 // FFMPEG Helper
+// #######################
 var ffmpeg_helper = new FfmpegHelper();
 ffmpeg_helper.on("video-created", function (resultobject) {
   console.log("video-created");
@@ -64,8 +57,9 @@ ffmpeg_helper.on("qr-created", function (resultobject) {
 });
 
 
-
-
+// ###########################
+// Express config and routing
+// ###########################
 
 // express.js PUBLIC STATIC FILES
 app.use(express.static('public'));
@@ -78,7 +72,8 @@ app.get('/', function(req, res, next){
   res.sendFile(path.join(__dirname, './public', 'button.html'));
 });
 
-// express.js ROUTING -> root
+// express.js ROUTING -> serving gifs page
+// fetch of gifs is triggered via socket.io
 app.get('/gifs', function(req, res, next){
   console.log("gifs page");
   next();
@@ -86,24 +81,22 @@ app.get('/gifs', function(req, res, next){
   res.sendFile(path.join(__dirname, './public', 'gifs.html'));
 });
 
+// listen on port
+http.listen(3000, function(){
+  console.log('listening on *:3000');
+});
 
-// socket.io -> on Connection
+// ###########################
+// socket.io
+// ###########################
 io.on('connection', function(socket){
   console.log('a user connected');
   // disconnect
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
-
-  // fetch GIFs
+  // fetch GIFs if browser loads the page and emits msg
   socket.on('fetch gifs', fetchGIFs);
-
-});
-
-
-// listen on port
-http.listen(3000, function(){
-  console.log('listening on *:3000');
 });
 
 
