@@ -23,6 +23,8 @@ function shutdownAll () {
   console.log("shutdownAll");
   gpio12.set(0);
   gpio16.set(0);
+
+  process.exit(0);
 }
 // twitter credentials
 var T = new Twit({
