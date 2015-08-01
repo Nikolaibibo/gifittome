@@ -16,7 +16,7 @@ var credentials = require('./twitter_credentials.json');
 
 var giffiles   = [];
 var captureIsBusy = false;
-var blinkInterval;
+var blinkRedInterval;
 
 process.on('SIGINT', shutdownAll);
 
@@ -24,6 +24,7 @@ function shutdownAll () {
   console.log("shutdownAll");
   gpio12.set(0);
   gpio16.set(0);
+  gpio26.set(0);
 
   stopBlinkingRed();
 
@@ -238,23 +239,26 @@ function tweetGIF () {
   })
 }
 
+// red LED blinking
 function startBlinkingRed () {
-  blinkInterval = setInterval(toggleLED, 150);
+  blinkRedInterval = setInterval(toggleRedLED, 250);
 }
 
 function stopBlinkingRed () {
-  clearInterval(blinkInterval);
-
+  clearInterval(blinkRedInterval);
   gpio16.set(0);
 }
 
-function toggleLED () {
+function toggleRedLED () {
   if (gpio16.value == 1) {
-    gpio16.reset();
+    gpio16.set(0);
   } else {
     gpio16.set();
   }
 }
+
+
+
 
 // Button code
 var gpio20 = gpio.export(20, {
@@ -285,6 +289,15 @@ var gpio16 = gpio.export(16, {
    interval: 200,
    ready: function() {
      console.log("red LED ready");
+   }
+});
+
+// LED yellow code
+var gpio26 = gpio.export(26, {
+   direction: 'out',
+   interval: 200,
+   ready: function() {
+     console.log("yellow LED ready");
    }
 });
 
