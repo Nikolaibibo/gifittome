@@ -122,6 +122,7 @@ GpioHelper.prototype.startYellow = function () {
   gpio26.set();
 }
 GpioHelper.prototype.stopYellow = function () {
+  clearInterval(blinkYellowInterval);
   gpio26.set(0);
 }
 

@@ -135,6 +135,8 @@ function shutdownAll () {
   console.log("shutdownAll");
 
   gpio_helper.stopBlinkingRed();
+  gpiohelper.stopBlinkingYellow();
+  
   gpio_helper.stopRed();
   gpio_helper.stopYellow();
   gpio_helper.stopGreen();
