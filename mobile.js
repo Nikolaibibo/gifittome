@@ -5,9 +5,6 @@ var io = require('socket.io')(http);
 var path = require('path');
 var shell = require('shelljs');
 
-var fs = require('fs');
-var qr = require('qr-image');
-var ip = require('ip');
 var walk = require('walk');
 var gpio = require("gpio");
 

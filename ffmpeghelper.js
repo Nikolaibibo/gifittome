@@ -2,6 +2,8 @@ var EventEmitter        = require("events").EventEmitter;
 var util                = require("util");
 var shell               = require('shelljs');
 var ip                  = require('ip');
+var fs                  = require('fs');
+var qr                  = require('qr-image');
 
 var _this; // scoping shizzel
 var captureIsBusy = false;
