@@ -24,7 +24,7 @@ function shutdownAll () {
   gpio12.set(0);
   gpio16.set(0);
 
-  setTimeout(500, kill);
+  setTimeout(kill, 500);
 }
 
 function kill () {
