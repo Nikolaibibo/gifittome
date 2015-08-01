@@ -91,7 +91,7 @@ io.on('connection', function(socket){
 // listen on port
 http.listen(3000, function(){
   console.log('listening on *:3000');
-  gpio12.set();
+
 });
 
 
@@ -260,6 +260,6 @@ var gpio12 = gpio.export(12, {
    interval: 200,
    ready: function() {
      console.log("green LED ready");
-
+     gpio12.set();
    }
 });
