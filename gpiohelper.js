@@ -7,6 +7,29 @@ var blinkRedInterval;
 
 
 
+// Button code
+var gpio20 = gpio.export(20, {
+   direction: "in",
+   //interval: 200,
+   ready: function() {
+     console.log("Button ready");
+   }
+});
+
+gpio20.on("change", function(val) {
+   if (val == 1) {
+     //console.log("button release");
+     _this.emit("button-released", "testdata");
+
+   }else if (val == 0) {
+     //console.log("button down");
+     _this.emit("button-down", "testdata");
+   }
+});
+
+
+
+
 // LED red code
 var gpio16 = gpio.export(16, {
    direction: 'out',
@@ -51,6 +74,7 @@ function toggleRedLED () {
 
 function GpioHelper () {
     EventEmitter.call(this);
+    _this = this;
 }
 util.inherits(GpioHelper, EventEmitter);
 

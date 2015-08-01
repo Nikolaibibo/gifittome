@@ -11,13 +11,21 @@ var qr = require('qr-image');
 var ip = require('ip');
 var walk = require('walk');
 var gpio = require("gpio");
-
 var GpioHelper = require("./gpiohelper.js");
-var helper = new GpioHelper();
 
-var credentials = require('./twitter_credentials.json');
 var giffiles   = [];
 var captureIsBusy = false;
+
+var helper = new GpioHelper();
+helper.on("button-released", function (resultobject) {
+  console.log("button-released");
+}
+helper.on("button-down", function (resultobject) {
+  console.log("button-down");
+  captureVideo();
+}
+
+
 
 process.on('SIGINT', shutdownAll);
 
@@ -130,7 +138,7 @@ function captureVideo () {
   helper.stopGreen();
 
   // red LED high
-  helper.stopBlinkingRed();
+  helper.startBlinkingRed();
 
   shell.exec(shell_string_delete, function(code, output) {
     console.log("videos deleted");
@@ -174,11 +182,10 @@ function createGIF () {
         //gpio16.set(0);
         helper.stopBlinkingRed();
         helper.startGreen();
-        
+
         // remove after enabling auto-tweet
         captureIsBusy = false;
 
-        //tweetGIF();
       }, 300);
 
       // gif path as message
@@ -189,51 +196,3 @@ function createGIF () {
 
   });
 }
-
-// custom function for tweeting generated GIF
-function tweetGIF () {
-  console.log("js tweetGIF");
-
-  // Load your image
-  //var data = require('fs').readFileSync('./public/videos/video.gif');
-  var b64content = fs.readFileSync(target_folder_gif_path + target_file_gif, { encoding: 'base64' })
-
-  // first we must post the media to Twitter
-  T.post('media/upload', { media_data: b64content }, function (err, data, response) {
-
-    // now we can reference the media and post a tweet (media will attach to the tweet)
-    var mediaIdStr = data.media_id_string
-    var params = { status: '#GIF_it_to_me', media_ids: [mediaIdStr] }
-
-    T.post('statuses/update', params, function (err, data, response) {
-      console.log("tweeted image succesful");
-      io.emit('gif tweeted');
-
-      captureIsBusy = false;
-    })
-  })
-}
-
-
-// Button code
-var gpio20 = gpio.export(20, {
-   direction: "in",
-   //interval: 200,
-   ready: function() {
-     console.log("ping");
-   }
-});
-
-gpio20.on("change", function(val) {
-   if (val == 1) {
-     console.log("button release");
-   }else if (val == 0) {
-     console.log("button down");
-     if (!captureIsBusy) {
-       captureVideo();
-     }else {
-       console.log("capture is busy right now, canceling execution");
-     }
-     captureIsBusy = true;
-   }
-});
