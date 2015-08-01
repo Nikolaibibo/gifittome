@@ -38,12 +38,6 @@ FfmpegHelper.prototype.captureVideo = function () {
   console.log("FfmpegHelper captureVideo");
   captureIsBusy = true;
 
-  // green LED low
-  gpio_helper.stopGreen();
-
-  // red LED high
-  gpio_helper.startBlinkingRed();
-
   shell.exec(shell_string_delete, function(code, output) {
     console.log("videos deleted");
     shell.exec(shell_string_create_video, function(code, output) {

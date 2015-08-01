@@ -100,7 +100,7 @@ io.on('connection', function(socket){
 
   // fetch GIFs
   socket.on('fetch gifs', fetchGIFs);
-  
+
 });
 
 
