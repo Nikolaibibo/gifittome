@@ -1,33 +1,7 @@
-var express = require('express');
-var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-var path = require('path');
 var shell = require('shelljs');
 
-var fs = require('fs');
-var qr = require('qr-image');
-var ip = require('ip');
-var walk = require('walk');
-var gpio = require("gpio");
-var GpioHelper = require("./gpiohelper.js");
-
-var giffiles   = [];
-
+var _this; // scoping shizzel
 var captureIsBusy = false;
-
-var gpio_helper = new GpioHelper();
-gpio_helper.on("button-released", function (resultobject) {
-  console.log("button-released");
-});
-gpio_helper.on("button-down", function (resultobject) {
-  console.log("button-down");
-  if (captureIsBusy) {
-    console.log("capture process running");
-  }else{
-    captureVideo();
-  }
-});
 
 // config vars
 // TODO: clean up
@@ -46,70 +20,20 @@ var shell_string_delete = "rm -r -f /home/pi/nodejs/gifittome/public/videos/*";
 var shell_string_create_video = "raspivid -o " + target_file_h264 + " -w 320 -h 240 -t 5000";
 var shell_string_convert_video = "MP4Box -fps 15 -add " + target_file_h264 + " " + target_file_mp4;
 var shell_string_ffmpeg_palette = "ffmpeg -i " + target_file_h264 + " -vf 'fps=15,scale=320:-1:flags=lanczos,palettegen' -y " + target_file_palette;
-//var shell_string_ffmpeg_gif = "ffmpeg -i " + target_file_mp4 + " -i " + target_file_palette + " -lavfi 'fps=15,scale=320:-1:flags=lanczos [x]; [x][1:v] paletteuse' -y " + target_file_gif;
-
-// express.js PUBLIC STATIC FILES
-app.use(express.static('public'));
-
-// express.js ROUTING -> root
-app.get('/', function(req, res, next){
-  console.log("root page");
-  next();
-}, function (req, res) {
-  res.sendFile(path.join(__dirname, './public', 'button.html'));
-});
-
-// express.js ROUTING -> root
-app.get('/gifs', function(req, res, next){
-  console.log("gifs page");
-  next();
-}, function (req, res) {
-  res.sendFile(path.join(__dirname, './public', 'gifs.html'));
-});
 
 
-// socket.io -> on Connection
-io.on('connection', function(socket){
-  console.log('a user connected');
-  // disconnect
-  socket.on('disconnect', function(){
-    console.log('user disconnected');
-  });
-});
 
-
-// listen on port
-http.listen(3000, function(){
-  console.log('listening on *:3000');
-});
-
-
-function fetchGIFs () {
-  console.log('fetch gifs');
-
-  // Walker options
-  var files   = [];
-  giffiles = [];
-  var walker  = walk.walk('./public/images/gif', { followLinks: false });
-
-  walker.on('file', function(root, stat, next) {
-      files.push(root + '/' + stat.name);
-      next();
-  });
-
-  walker.on('end', function() {
-      for (var i = 0; i < files.length; i++) {
-        var str = files[i];
-        var strEdit = str.replace("./public", "");
-        giffiles.push(strEdit);
-      }
-      io.emit("gifs fetched", giffiles);
-  });
+function FfmpegHelper () {
+    EventEmitter.call(this);
+    _this = this;
 }
+util.inherits(FfmpegHelper, EventEmitter);
 
-// custom function for capturing video
-function captureVideo () {
-  console.log("js captureVideo");
+
+
+FfmpegHelper.prototype.captureVideo = function () {
+
+  console.log("FfmpegHelper captureVideo");
   captureIsBusy = true;
 
   // green LED low
@@ -121,15 +45,16 @@ function captureVideo () {
   shell.exec(shell_string_delete, function(code, output) {
     console.log("videos deleted");
     shell.exec(shell_string_create_video, function(code, output) {
-      console.log("video created!");
-      createGIF();
+      console.log("video created");
+      // TODO: bind to EventEmitter in mobile.js
+      //createGIF();
     });
   });
 }
 
-// custom function for converting GIF from *.h264
-function createGIF () {
-  console.log("js createGIF");
+
+FfmpegHelper.prototype.createGIF = function () {
+  console.log("FfmpegHelper createGIF");
 
   shell.exec(shell_string_ffmpeg_palette, function(code, output) {
     console.log("palette created!");
@@ -177,20 +102,4 @@ function createGIF () {
 
 
 
-// wait for CTRL+C
-process.on('SIGINT', shutdownAll);
-
-function shutdownAll () {
-  console.log("shutdownAll");
-
-  gpio_helper.stopBlinkingRed();
-  gpio_helper.stopRed();
-  gpio_helper.stopYellow();
-  gpio_helper.stopGreen();
-
-  setTimeout(kill, 500);
-}
-
-function kill () {
-  process.exit(0);
-}
+module.exports = FfmpegHelper;
