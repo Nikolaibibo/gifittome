@@ -239,7 +239,7 @@ function tweetGIF () {
 }
 
 function startBlinkingRed () {
-  blinkInterval = setInterval(toggleLED, 300);
+  blinkInterval = setInterval(toggleLED, 150);
 }
 
 function stopBlinkingRed () {
