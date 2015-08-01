@@ -17,6 +17,13 @@ var credentials = require('./twitter_credentials.json');
 var giffiles   = [];
 var captureIsBusy = false;
 
+process.on('SIGINT', shutdownAll);
+
+function shutdownAll () {
+  console.log("shutdownAll");
+  gpio12.set(0);
+  gpio16.set(0);
+}
 // twitter credentials
 var T = new Twit({
   consumer_key: credentials.twitter_consumer_key,
