@@ -139,11 +139,9 @@ function shutdownAll () {
   gpio_helper.stopBlinkingRed();
   gpio_helper.stopBlinkingYellow();
 
-  gpio_helper.stopRed();
-  gpio_helper.stopYellow();
-  gpio_helper.stopGreen();
+  gpio_helper.doStopAnimation();
 
-  setTimeout(kill, 500);
+  setTimeout(kill, 550);
 }
 
 function kill () {

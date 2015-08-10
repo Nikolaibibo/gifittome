@@ -151,4 +151,26 @@ GpioHelper.prototype.doStartAnimation = function () {
 }
 
 
+
+// turn off animation
+GpioHelper.prototype.doStopAnimation = function () {
+
+  // red
+  setTimeout(function(){ gpio16.set(); }, 100);
+
+  // yellow
+  setTimeout(function(){ gpio26.set(); }, 200);
+
+  // green
+  setTimeout(function(){ gpio12.set(); }, 300);
+
+  setTimeout(function(){
+                          gpio16.set(0);
+                          gpio26.set(0);
+                          gpio12.set(0);
+
+                        }, 500);
+}
+
+
 module.exports = GpioHelper;
