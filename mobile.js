@@ -141,7 +141,7 @@ function shutdownAll () {
 
   gpio_helper.doStopAnimation();
 
-  setTimeout(kill, 550);
+  setTimeout(kill, 650);
 }
 
 function kill () {
