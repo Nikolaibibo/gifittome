@@ -55,7 +55,7 @@ var gpio12 = gpio.export(12, {
    interval: 200,
    ready: function() {
      console.log("green LED ready");
-     gpio12.set();
+     //gpio12.set();
    }
 });
 
@@ -145,6 +145,9 @@ GpioHelper.prototype.doStartAnimation = function () {
                           gpio12.set(0);
 
                         }, 1000);
+
+  // green
+  setTimeout(function(){ gpio12.set(); }, 1500);
 }
 
 

@@ -87,6 +87,7 @@ app.get('/gifs', function(req, res, next){
 // listen on port
 http.listen(3000, function(){
   console.log('listening on *:3000');
+  gpio_helper.doStartAnimation();
 });
 
 // ###########################
