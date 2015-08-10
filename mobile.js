@@ -21,7 +21,7 @@ gpio_helper.on("button-released", function (resultobject) {
 gpio_helper.on("button-down", function (resultobject) {
   console.log("button-down");
   if (captureIsBusy) {
-    console.log("capture process running");
+    console.log("capture process running! try again later...");
   }else{
     gpio_helper.stopGreen();
     gpio_helper.startBlinkingRed();
