@@ -132,19 +132,23 @@ GpioHelper.prototype.doStartAnimation = function () {
 
   // red
   setTimeout(function(){ gpio16.set(); }, 200);
-
+  setTimeout(function(){ gpio16.set(0); }, 300);
   // yellow
   setTimeout(function(){ gpio26.set(); }, 400);
-
+  setTimeout(function(){ gpio26.set(0); }, 500);
   // green
   setTimeout(function(){ gpio12.set(); }, 600);
+  setTimeout(function(){ gpio12.set(0); }, 700);
 
-  setTimeout(function(){
-                          gpio16.set(0);
-                          gpio26.set(0);
-                          gpio12.set(0);
-
-                        }, 1000);
+  // red
+  setTimeout(function(){ gpio16.set(); }, 800);
+  setTimeout(function(){ gpio16.set(0); }, 900);
+  // yellow
+  setTimeout(function(){ gpio26.set(); }, 1000);
+  setTimeout(function(){ gpio26.set(0); }, 1100);
+  // green
+  setTimeout(function(){ gpio12.set(); }, 1200);
+  setTimeout(function(){ gpio12.set(0); }, 1300);
 
   // green
   setTimeout(function(){ gpio12.set(); }, 1500);
@@ -157,19 +161,17 @@ GpioHelper.prototype.doStopAnimation = function () {
 
   // red
   setTimeout(function(){ gpio16.set(); }, 100);
-
   // yellow
   setTimeout(function(){ gpio26.set(); }, 200);
-
   // green
   setTimeout(function(){ gpio12.set(); }, 300);
 
-  setTimeout(function(){
-                          gpio16.set(0);
-                          gpio26.set(0);
-                          gpio12.set(0);
+  setTimeout(function(){ gpio16.set(0); }, 400);
+  // yellow
+  setTimeout(function(){ gpio26.set(0); }, 500);
+  // green
+  setTimeout(function(){ gpio12.set(0); }, 600);
 
-                        }, 500);
 }
 
 
