@@ -34,7 +34,7 @@ gpio_helper.on("button-down", function (resultobject) {
       gpio_helper.startBlinkingYellow();
 
       ffmpeg_helper.captureVideo();
-    }, 1100);
+    }, 1600);
     */
   }
 });

@@ -129,6 +129,31 @@ GpioHelper.prototype.stopYellow = function () {
 
 // animations
 GpioHelper.prototype.doCountdownAnimation = function () {
+  gpio12_green.set();
+  gpio16_red.set();
+  gpio26_yellow.set();
+
+  setTimeout(function(){ gpio16_red.set(0); }, 100);
+  setTimeout(function(){ gpio16_red.set(); }, 200);
+  setTimeout(function(){ gpio16_red.set(0); }, 300);
+  setTimeout(function(){ gpio16_red.set(); }, 400);
+  setTimeout(function(){ gpio16_red.set(0); }, 500);
+
+  setTimeout(function(){ gpio26_yellow.set(0); }, 600);
+  setTimeout(function(){ gpio26_yellow.set(); }, 700);
+  setTimeout(function(){ gpio26_yellow.set(0); }, 800);
+  setTimeout(function(){ gpio26_yellow.set(); }, 900);
+  setTimeout(function(){ gpio26_yellow.set(0); }, 1000);
+
+  setTimeout(function(){ gpio12_green.set(0); }, 1100);
+  setTimeout(function(){ gpio12_green.set(); }, 1200);
+  setTimeout(function(){ gpio12_green.set(0); }, 1300);
+  setTimeout(function(){ gpio12_green.set(); }, 1400);
+  setTimeout(function(){ gpio12_green.set(0); }, 1500);
+
+}
+
+GpioHelper.prototype.doCountdownAnimation1 = function () {
 
   gpio12_green.set(0);
 
