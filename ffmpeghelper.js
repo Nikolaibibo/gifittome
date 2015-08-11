@@ -9,14 +9,14 @@ var _this; // scoping shizzel
 
 // config vars
 // TODO: clean up
-var target_file_still = "./public/images/cam.jpg";
-var target_file_gif = './public/videos/video.gif';
+var target_file_still = "/home/pi/nodejs/gifittome/public/images/cam.jpg";
+var target_file_gif = '/home/pi/nodejs/gifittome/public/videos/video.gif';
 var target_folder_gif_external_path = '/images/gif/';
-var target_folder_gif_path = "./public/images/gif/"
-var target_file_palette = "./public/videos/palette.png";
-var target_file_mp4 = "./public/videos/video.mp4";
-var target_file_h264 = "./public/videos/video.h264";
-var target_file_qr = "./public/images/qr.png";
+var target_folder_gif_path = "/home/pi/nodejs/gifittome/public/images/gif/"
+var target_file_palette = "/home/pi/nodejs/gifittome/public/videos/palette.png";
+var target_file_mp4 = "/home/pi/nodejs/gifittome/public/videos/video.mp4";
+var target_file_h264 = "/home/pi/nodejs/gifittome/public/videos/video.h264";
+var target_file_qr = "/home/pi/nodejs/gifittome/public/images/qr.png";
 
 // shell string for shell.js
 var shell_string_stillimage = "raspistill -o " + target_file_still + " -w 320 -h 240 -t 500";
