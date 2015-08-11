@@ -24,10 +24,10 @@ gpio_helper.on("button-down", function (resultobject) {
     console.log("capture process running! try again later...");
   }else{
 
-    //captureIsBusy = true;
+    captureIsBusy = true;
     gpio_helper.doCountdownAnimation();
 
-    /*
+
     setTimeout(function(){
       gpio_helper.stopGreen();
       gpio_helper.startBlinkingRed();
@@ -35,7 +35,7 @@ gpio_helper.on("button-down", function (resultobject) {
 
       ffmpeg_helper.captureVideo();
     }, 1600);
-    */
+    
   }
 });
 
