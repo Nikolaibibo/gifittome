@@ -1,0 +1,9 @@
+// forever/development.json
+{
+    // gifittome app - forever config
+    "uid": "gifittome",
+    "append": true,
+    "watch": true,
+    "script": "mobile.js",
+    "sourceDir": "/home/pi/nodejs/gifittome"
+}
