@@ -122,13 +122,8 @@ io.on('connection', function(socket){
   socket.on('fetch gifs', fetchGIFs);
 
   // TODO: delete later
-  socket.on('update image', captureImage);
-  // generate and update the video
-  socket.on('create video', captureVideo);
-  // generate GIF from video
-  socket.on('create gif', createGIF);
-  // tweet GIF
-  socket.on('tweet gif', gpio_helper.captureStillImage);
+  socket.on('update image', gpio_helper.captureStillImage);
+
 
 });
 
