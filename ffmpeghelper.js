@@ -33,7 +33,13 @@ function FfmpegHelper () {
 }
 util.inherits(FfmpegHelper, EventEmitter);
 
-
+FfmpegHelper.prototype.captureStillImage = function () {
+  shell.exec(shell_string_stillimage, function(code, output) {
+    console.log("still image created!");
+    _this.emit("stillimage-created", "testdata");
+    //io.emit('image created');
+  });
+}
 
 FfmpegHelper.prototype.captureVideo = function () {
 

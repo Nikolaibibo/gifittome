@@ -66,6 +66,10 @@ ffmpeg_helper.on("qr-created", function (resultobject) {
   io.emit('qr created', "leer");
 });
 
+ffmpeg_helper.on("stillimage-created", function (tmpgifsrc) {
+  io.emit('image created');
+}
+
 
 // ###########################
 // Express config and routing
@@ -116,6 +120,16 @@ io.on('connection', function(socket){
   });
   // fetch GIFs if browser loads the page and emits msg
   socket.on('fetch gifs', fetchGIFs);
+
+  // TODO: delete later
+  socket.on('update image', captureImage);
+  // generate and update the video
+  socket.on('create video', captureVideo);
+  // generate GIF from video
+  socket.on('create gif', createGIF);
+  // tweet GIF
+  socket.on('tweet gif', gpio_helper.captureStillImage);
+
 });
 
 
