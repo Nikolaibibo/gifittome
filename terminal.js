@@ -87,7 +87,7 @@ app.get('/', function(req, res, next){
   console.log("root page");
   next();
 }, function (req, res) {
-  res.sendFile(path.join(__dirname, './public', 'button.html'));
+  res.sendFile(path.join(__dirname, './public', 'scroll.html'));
 });
 
 // express.js ROUTING -> serving gifs page
@@ -100,11 +100,11 @@ app.get('/gifs', function(req, res, next){
 });
 
 // fetch of gifs is triggered via socket.io
-app.get('/scroll', function(req, res, next){
+app.get('/demo', function(req, res, next){
   console.log("scroll page");
   next();
 }, function (req, res) {
-  res.sendFile(path.join(__dirname, './public', 'scroll.html'));
+  res.sendFile(path.join(__dirname, './public', 'demo.html'));
 });
 
 // listen on port

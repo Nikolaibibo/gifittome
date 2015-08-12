@@ -78,7 +78,7 @@ app.get('/', function(req, res, next){
   console.log("root page");
   next();
 }, function (req, res) {
-  res.sendFile(path.join(__dirname, './public', 'button.html'));
+  res.sendFile(path.join(__dirname, './public', 'result_simple.html'));
 });
 
 // express.js ROUTING -> serving gifs page
