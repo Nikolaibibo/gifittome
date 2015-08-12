@@ -68,7 +68,7 @@ ffmpeg_helper.on("qr-created", function (resultobject) {
 
 ffmpeg_helper.on("stillimage-created", function (tmpgifsrc) {
   io.emit('image created');
-}
+});
 
 
 // ###########################
