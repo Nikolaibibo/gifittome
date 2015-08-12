@@ -122,15 +122,10 @@ io.on('connection', function(socket){
   socket.on('fetch gifs', fetchGIFs);
 
   // TODO: delete later
-  socket.on('update image', captureStill);
+  socket.on('update image', ffmpeg_helper.captureStillImage());
 
 });
 
-
-function captureStill () {
-  console.log("captureStill");
-  ffmpeg_helper.captureStillImage();
-}
 
 function fetchGIFs () {
   console.log('fetch gifs');
