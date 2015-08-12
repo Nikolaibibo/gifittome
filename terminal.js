@@ -27,6 +27,7 @@ gpio_helper.on("button-down", function (resultobject) {
     captureIsBusy = true;
     gpio_helper.doCountdownAnimation();
 
+
     setTimeout(function(){
       gpio_helper.stopGreen();
       gpio_helper.startBlinkingRed();
@@ -65,6 +66,10 @@ ffmpeg_helper.on("qr-created", function (resultobject) {
   io.emit('qr created', "leer");
 });
 
+ffmpeg_helper.on("stillimage-created", function (tmpgifsrc) {
+  io.emit('image created');
+});
+
 
 // ###########################
 // Express config and routing
@@ -90,6 +95,14 @@ app.get('/gifs', function(req, res, next){
   res.sendFile(path.join(__dirname, './public', 'gifs.html'));
 });
 
+// fetch of gifs is triggered via socket.io
+app.get('/scroll', function(req, res, next){
+  console.log("scroll page");
+  next();
+}, function (req, res) {
+  res.sendFile(path.join(__dirname, './public', 'scroll.html'));
+});
+
 // listen on port
 http.listen(3000, function(){
   console.log('listening on *:3000');
@@ -107,6 +120,9 @@ io.on('connection', function(socket){
   });
   // fetch GIFs if browser loads the page and emits msg
   socket.on('fetch gifs', fetchGIFs);
+
+  // TODO: delete later
+  socket.on('update image', ffmpeg_helper.captureStillImage);
 
 });
 
