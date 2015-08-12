@@ -122,11 +122,14 @@ io.on('connection', function(socket){
   socket.on('fetch gifs', fetchGIFs);
 
   // TODO: delete later
-  socket.on('update image', gpio_helper.captureStillImage());
-
+  socket.on('update image', captureStill);
 
 });
 
+
+function captureStill () {
+  gpio_helper.captureStillImage();
+}
 
 function fetchGIFs () {
   console.log('fetch gifs');
