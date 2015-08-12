@@ -35,7 +35,7 @@ gpio_helper.on("button-down", function (resultobject) {
 
       ffmpeg_helper.captureVideo();
     }, 1600);
-    
+
   }
 });
 
@@ -89,6 +89,14 @@ app.get('/gifs', function(req, res, next){
   next();
 }, function (req, res) {
   res.sendFile(path.join(__dirname, './public', 'gifs.html'));
+});
+
+// fetch of gifs is triggered via socket.io
+app.get('/scroll', function(req, res, next){
+  console.log("scroll page");
+  next();
+}, function (req, res) {
+  res.sendFile(path.join(__dirname, './public', 'scroll.html'));
 });
 
 // listen on port
