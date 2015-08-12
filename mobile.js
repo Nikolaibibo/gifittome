@@ -128,7 +128,8 @@ io.on('connection', function(socket){
 
 
 function captureStill () {
-  gpio_helper.captureStillImage();
+  console.log("captureStill");
+  ffmpeg_helper.captureStillImage();
 }
 
 function fetchGIFs () {
