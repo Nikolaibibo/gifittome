@@ -90,22 +90,13 @@
     </div>
 		<a href="#" class="redbtn" onclick="createImage()">Bild aktualisieren</a>
 	</div>
-	<div class="section" id="section1">
-	    <h1>Video Preview</h1>
-			<div id='videoplayer'>
-				<video id='vid' width="320" height="240" controls>
-					<source src="images/demo.mp4" type="video/mp4">
-					Your browser does not support the video tag.
-				</video>
-			</div>
-			<a href="#" class="redbtn" onclick="createVideo()">Create Video</a>
-	</div>
+
 	<div class="section" id="section2">
 		<h1>GIF</h1>
 		<div id="gif" class="gif">
 			<img src="images/animated.gif" id="previewgif">
 		</div>
-		<a href="#" class="redbtn" onclick="createGIF()">Create GIF</a>
+		<a href="#" class="redbtn" onclick="createVideo()">Create GIF</a>
 	</div>
 	<div class="section" id="section3">
 		<h1>take away</h1>
@@ -190,11 +181,6 @@
 		showLoader("Generating new video");
 		socket.emit('create video');
 		//alert("create video");
-	}
-
-	function createGIF () {
-		showLoader("Generating GIF from video");
-		socket.emit('create gif');
 	}
 
 	function tweetGIF () {
