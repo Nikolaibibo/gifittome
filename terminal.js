@@ -121,11 +121,18 @@ io.on('connection', function(socket){
   // fetch GIFs if browser loads the page and emits msg
   socket.on('fetch gifs', fetchGIFs);
 
-  // TODO: delete later
   socket.on('update image', ffmpeg_helper.captureStillImage);
-
+  // generate and update the video
+  socket.on('create video', ffmpeg_helper.captureVideo);
+  // generate GIF from video
+  socket.on('create gif', ffmpeg_helper.createGIF);
+  // tweet GIF
+  socket.on('tweet gif', tweetGIF);
 });
 
+function tweetGIF () {
+  console.log("IMPLEMENT THIS PLEASE!!");
+}
 
 function fetchGIFs () {
   console.log('fetch gifs');
