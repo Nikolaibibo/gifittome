@@ -47,6 +47,12 @@
 		background-image: url(images/scroll/bg1.jpg);
 		padding: 30% 0 0 0;
 	}
+
+	#section1{
+		background-image: url(images/scroll/bg2.jpg);
+		padding: 30% 0 0 0;
+	}
+
 	#section2{
 		background-image: url(images/scroll/bg3.jpg);
 		padding: 6% 0 0 0;
@@ -118,7 +124,12 @@
 	</div>
 	<div class="section" id="section1">
 	    <h1>Video Preview</h1>
-		
+			<div id='videoplayer'>
+				<video id='vid' width="320" height="240" controls>
+					<source src="images/demo.mp4" type="video/mp4">
+					Your browser does not support the video tag.
+				</video>
+			</div>
 	</div>
 	<div class="section" id="section2">
 		<h1>GIF</h1>
