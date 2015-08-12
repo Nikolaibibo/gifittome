@@ -70,6 +70,10 @@ ffmpeg_helper.on("stillimage-created", function (tmpgifsrc) {
   io.emit('image created');
 });
 
+ffmpeg_helper.on("video-created", function (tmpgifsrc) {
+  io.emit('video created');
+});
+
 
 // ###########################
 // Express config and routing
