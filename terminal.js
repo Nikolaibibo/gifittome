@@ -127,12 +127,20 @@ io.on('connection', function(socket){
 
   socket.on('update image', ffmpeg_helper.captureStillImage);
   // generate and update the video
-  socket.on('create video', ffmpeg_helper.captureVideo);
+  socket.on('create video', captureVideo);
   // generate GIF from video
   socket.on('create gif', ffmpeg_helper.createGIF);
   // tweet GIF
   socket.on('tweet gif', tweetGIF);
 });
+
+function captureVideo () {
+  if (captureIsBusy) {
+    console.log("capture is busy");
+  }else{
+    ffmpeg_helper.captureVideo();
+  }
+}
 
 function tweetGIF () {
   console.log("IMPLEMENT THIS PLEASE!!");
