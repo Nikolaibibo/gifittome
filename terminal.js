@@ -136,9 +136,21 @@ io.on('connection', function(socket){
 
 function captureVideo () {
   if (captureIsBusy) {
-    console.log("capture is busy");
+    console.log("capture process running! try again later...");
   }else{
-    ffmpeg_helper.captureVideo();
+
+    captureIsBusy = true;
+    gpio_helper.doCountdownAnimation();
+
+
+    setTimeout(function(){
+      gpio_helper.stopGreen();
+      gpio_helper.startBlinkingRed();
+      gpio_helper.startBlinkingYellow();
+
+      ffmpeg_helper.captureVideo();
+    }, 1600);
+
   }
 }
 
