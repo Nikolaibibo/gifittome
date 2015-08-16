@@ -90,7 +90,7 @@
 		<div id="image" class="inhalt">
       <img src="images/camera.jpg" id="preview">
     </div>
-		<a href="#" class="redbtn" onclick="createImage()">Bild aktualisieren</a>
+		<a href="#" class="redbtn" onclick="createImage()">Let's go</a>
 	</div>
 
 	<div class="section" id="section2">
@@ -177,6 +177,7 @@
 	function createImage () {
 		showLoader("Generating new still image");
 		socket.emit('update image');
+		$.fn.fullpage.moveSectionDown();
 	}
 
 	function createVideo () {
