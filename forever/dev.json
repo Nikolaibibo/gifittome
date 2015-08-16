@@ -1,7 +1,0 @@
-{
-    // gifittome app - forever config
-    "uid": "app",
-    "script": "mobile.js",
-    "sourceDir": "/home/pi/nodejs/gifittome",
-    "workingDir": "/home/pi/nodejs/gifittome"
-}
