@@ -190,6 +190,7 @@
 	function createVideo () {
 		showLoader("Generating new video");
 		socket.emit('create video');
+		$.fn.fullpage.moveSectionDown();
 		//alert("create video");
 	}
 
