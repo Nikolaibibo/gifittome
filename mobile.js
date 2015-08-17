@@ -46,8 +46,8 @@ ffmpeg_helper.on("video-created", function (resultobject) {
   console.log("video-created");
   //gpio_helper.stopBlinkingYellow();
   // create gif
-  ffmpeg_helper.createGIF();
-  //ffmpeg_helper.createWatermark();
+  //ffmpeg_helper.createGIF();
+  ffmpeg_helper.createWatermark();
 });
 
 ffmpeg_helper.on("watermark-created", function (resultobject) {
