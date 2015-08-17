@@ -77,8 +77,8 @@
 				css3:false
 			});
 
-			socket.emit('update image');
-
+			createImage();
+		});
 	</script>
 
 </head>
@@ -90,22 +90,15 @@
 		<div id="image" class="inhalt">
       <img src="images/camera.jpg" id="preview">
     </div>
-		<a href="#" class="redbtn" onclick="createImage()">Let's go</a>
+		<a href="#" class="redbtn" onclick="createImage()">Bild aktualisieren</a>
 	</div>
 
-	<div class="section" id="section1">
+	<div class="section" id="section2">
 		<h1>GIF</h1>
 		<div id="gif" class="gif">
 			<img src="images/animated.gif" id="previewgif">
 		</div>
 		<a href="#" class="redbtn" onclick="createVideo()">Create GIF</a>
-	</div>
-	<div class="section" id="section2">
-		<h1>working hard...</h1>
-		<div id="qr">
-      <img src="images/loader.gif" id="loader">
-    </div>
-		<a href="#" class="redbtn" onclick="showQR()">gif it to me</a>
 	</div>
 	<div class="section" id="section3">
 		<h1>take away</h1>
@@ -154,7 +147,7 @@
 		var gifsrc = msg + randomStr;
 		//alert("gif created" + gifsrc);
 
-		$("#loadr").attr("src", gifsrc);
+		$("#previewgif").attr("src", gifsrc);
 	});
 
 	socket.on('palette created', function(msg){
@@ -184,19 +177,12 @@
 	function createImage () {
 		showLoader("Generating new still image");
 		socket.emit('update image');
-		$.fn.fullpage.moveSectionDown();
 	}
 
 	function createVideo () {
 		showLoader("Generating new video");
 		socket.emit('create video');
-		$.fn.fullpage.moveSectionDown();
 		//alert("create video");
-	}
-
-	function showQR () {
-		console.log("showQR");
-		$.fn.fullpage.moveSectionDown();
 	}
 
 	function tweetGIF () {
@@ -218,8 +204,6 @@
 	function updateLoaderText (msg) {
 			$("#statustext").text(msg);
 	}
-
-
 
 
 </script>
