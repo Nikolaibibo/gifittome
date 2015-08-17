@@ -60,6 +60,7 @@ ffmpeg_helper.on("qr-created", function (resultobject) {
   captureIsBusy = false;
 
   gpio_helper.stopBlinkingRed();
+  gpio_helper.stopRed();
   gpio_helper.startGreen();
 
   io.emit('qr created', "leer");
