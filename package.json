@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Nikolaibibo/gifittome",
   "dependencies": {
     "express": "^4.13.1",
+    "favico.js": "^0.3.9",
     "gpio": "^0.2.7",
     "ip": "^0.3.3",
     "qr-image": "^3.1.0",
