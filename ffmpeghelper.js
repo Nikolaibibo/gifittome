@@ -12,7 +12,8 @@ var _this; // scoping shizzel
 var target_file_still = "/home/pi/nodejs/gifittome/public/images/cam.jpg";
 var target_file_gif = '/home/pi/nodejs/gifittome/public/videos/video.gif';
 var target_folder_gif_external_path = '/images/gif/';
-var target_folder_gif_path = "/home/pi/nodejs/gifittome/public/images/gif/"
+var target_folder_gif_path = "/home/pi/nodejs/gifittome/public/images/gif/";
+var target_file_watermark = "/home/pi/nodejs/gifittome/public/images/watermark.png";
 var target_file_palette = "/home/pi/nodejs/gifittome/public/videos/palette.png";
 var target_file_mp4 = "/home/pi/nodejs/gifittome/public/videos/video.mp4";
 var target_file_h264 = "/home/pi/nodejs/gifittome/public/videos/video.h264";
@@ -22,6 +23,7 @@ var target_file_qr = "/home/pi/nodejs/gifittome/public/images/qr.png";
 var shell_string_stillimage = "raspistill -o " + target_file_still + " -w 600 -h 400 -t 500";
 var shell_string_delete = "rm -r -f /home/pi/nodejs/gifittome/public/videos/*";
 var shell_string_create_video = "raspivid -o " + target_file_h264 + " -fps 25 -w 600 -h 400 -t 5000";
+var shell_string_create_watermark = "ffmpeg -i " + target_file_h264 + " -i " + target_file_watermark + " -filter_complex 'overlay=10:10' " + target_file_mp4;
 var shell_string_ffmpeg_palette = "ffmpeg -i " + target_file_h264 + " -vf 'fps=5,scale=600:-1:flags=lanczos,palettegen' -y " + target_file_palette;
 
 
@@ -52,11 +54,19 @@ FfmpegHelper.prototype.captureVideo = function () {
   });
 }
 
+FfmpegHelper.prototype.createWatermark = function () {
+
+  shell.exec(shell_string_create_watermark, function(code, output) {
+    console.log("watermark created");
+    _this.emit("watermark-created", "watermark");
+  });
+}
 
 FfmpegHelper.prototype.createGIF = function () {
   console.log("FfmpegHelper createGIF");
 
   shell.exec(shell_string_ffmpeg_palette, function(code, output) {
+
     console.log("palette created!");
 
     // generate unique file name
@@ -64,7 +74,7 @@ FfmpegHelper.prototype.createGIF = function () {
     var datestring = d.getDate() + "_" + d.getMonth() + "_" + d.getFullYear() + "_" + d.getHours() + "-" + d.getMinutes() + "_video.gif";
     target_file_gif = datestring;
 
-    var shell_string_ffmpeg_gif = "ffmpeg -i " + target_file_h264 + " -i " + target_file_palette + " -lavfi 'fps=15,scale=400:-1:flags=lanczos [x]; [x][1:v] paletteuse' -y " + target_folder_gif_path + target_file_gif;
+    var shell_string_ffmpeg_gif = "ffmpeg -i " + target_file_mp4 + " -i " + target_file_palette + " -lavfi 'fps=15,scale=400:-1:flags=lanczos [x]; [x][1:v] paletteuse' -y " + target_folder_gif_path + target_file_gif;
     console.log("shell_string_ffmpeg_gif::::: " + shell_string_ffmpeg_gif);
 
     shell.exec(shell_string_ffmpeg_gif, function(code, output) {

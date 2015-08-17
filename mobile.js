@@ -44,6 +44,14 @@ gpio_helper.on("button-down", function (resultobject) {
 var ffmpeg_helper = new FfmpegHelper();
 ffmpeg_helper.on("video-created", function (resultobject) {
   console.log("video-created");
+  //gpio_helper.stopBlinkingYellow();
+  // create gif
+  //ffmpeg_helper.createGIF();
+  ffmpeg_helper.createWatermark();
+});
+
+ffmpeg_helper.on("watermark-created", function (resultobject) {
+  console.log("watermark-created");
   gpio_helper.stopBlinkingYellow();
   // create gif
   ffmpeg_helper.createGIF();
