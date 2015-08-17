@@ -54,7 +54,7 @@ ffmpeg_helper.on("watermark-created", function (resultobject) {
   console.log("watermark-created");
   gpio_helper.stopBlinkingYellow();
   // create gif
-  ffmpeg_helper.createGIF();
+  //ffmpeg_helper.createGIF();
 });
 
 ffmpeg_helper.on("gif-created", function (tmpgifsrc) {
