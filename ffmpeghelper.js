@@ -22,7 +22,7 @@ var target_file_qr = "/home/pi/nodejs/gifittome/public/images/qr.png";
 var shell_string_stillimage = "raspistill -o " + target_file_still + " -w 600 -h 400 -t 500";
 var shell_string_delete = "rm -r -f /home/pi/nodejs/gifittome/public/videos/*";
 var shell_string_create_video = "raspivid -o " + target_file_h264 + " -fps 25 -w 600 -h 400 -t 5000";
-var shell_string_ffmpeg_palette = "ffmpeg -i " + target_file_h264 + " -vf 'fps=5,scale=600:-1:flags=lanczos,palettegen' -y " + target_file_palette;
+var shell_string_ffmpeg_palette = "ffmpeg -i " + target_file_h264 + " -i /home/pi/nodejs/gifittome/public/images/watermark.png -filter_complex 'overlay=10:10' -vf 'fps=5,scale=600:-1:flags=lanczos,palettegen' -y " + target_file_palette;
 
 
 function FfmpegHelper () {
